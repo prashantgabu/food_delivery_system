@@ -32,7 +32,7 @@ class restaurant(models.Model):
     mobile_number = models.IntegerField()
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    pincode = models.IntegerField(max_length=100)
+    pincode = models.IntegerField()
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     description = models.TextField()
