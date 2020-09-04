@@ -31,11 +31,12 @@
 			  <div class="logo"><img src="images/logo2.png" alt=""></div>
             <h4>Sign In To Restaurant Account</h4>
             <span>Please enter your user information</span>
-            <form method="post">
+            <form method="post" action="{% url 'res_login'%}">
+              {%csrf_token%}
               <label><i class="fa fa-envelope"></i></label>
-              <input type="text" placeholder="Email Address">
+              <input type="text" placeholder="Email Address" name="email">
               <label><i class="fa fa-unlock-alt"></i></label>
-              <input type="text" placeholder="Password">
+              <input type="password" placeholder="Password" name="password">
               <label for="remember"><a href="#" title="">Forgot password?</a></label>
               <button type="submit">sign in</button>
             </form>
