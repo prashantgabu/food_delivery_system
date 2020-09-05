@@ -85,7 +85,7 @@ class Dish(models.Model):
 	dish_name = models.CharField(max_length=100)
 	price = models.IntegerField()
 	dish_description = models.TextField(max_length=100)
-	dish_photo = models.ImageField(upload_to='dish_photos')
+	dish_photo = models.ImageField(upload_to='dish_photos/')
 	customization = models.CharField(max_length=100)
 	cuisine_id = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
 	restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)

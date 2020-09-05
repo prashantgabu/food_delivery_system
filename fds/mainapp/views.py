@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Restaurant, Dish
+from . models import Restaurant, Dish, Cuisine
 from django.contrib import messages
 
 
@@ -49,15 +49,19 @@ def res_addDish(request):
         dishprice = request.POST.get('dishprice')
         dishdescription = request.POST.get('dishdescription')
         customization = request.POST.get('customization')
-        dishimage = request.POST.get('dishimage')
+        dishimage =  request.FILES['dishimage']
         cuisine = request.POST.get('cuisine')
+        cuisine_id = Cuisine.objects.get(id=cuisine)
+        restaurant = Restaurant.objects.get(id=1)
+
         dish = Dish(
-            dish_name=dishname, price=dishprice, dish_description=dishdescription, customization=customization, dish_photo=dishimage)
+            dish_name=dishname, price=dishprice, dish_description=dishdescription, customization=customization, dish_photo=dishimage, cuisine_id=cuisine_id, restaurant_id=restaurant)
         dish.save()
         print("Dish object:", dish)
         return redirect('res_viewDish')
     else:
-        return render(request, 'backend/res_addDish.html')
+        cuisine_list= Cuisine.objects.all()
+        return render(request, 'backend/res_addDish.html',{"cuisine_list":cuisine_list})
 
 
 def res_viewDish(request):
