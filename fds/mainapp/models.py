@@ -1,5 +1,5 @@
 from django.db import models
-
+#Models.oy file
 ROLE_CHOICE = (
 	('admin', 'Admin'),
 	('buyer', 'Buyer')
