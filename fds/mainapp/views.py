@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Restaurant, Dish, Cuisine
+from . models import Restaurant, Dish, Cuisine, Discount
 from django.contrib import messages
 
 
@@ -150,3 +150,27 @@ def res_updatePassword(request):
     else:
         messages.error(request, 'Old Password Did Not Match.')
         return redirect('res_changePassword')
+
+
+def res_addDiscount(request):
+    if request.method == "POST":
+        discount_value = request.POST.get('discount')
+        discountlimit = request.POST.get('discountlimit')
+        discountdescription = request.POST.get('discountdescription')
+        res_id = request.session['res_id']
+        restaurant = Restaurant.objects.get(id=res_id)
+        discount = Discount(discount_value=discount_value, discount_description=discountdescription,
+                            discount_limit=discountlimit, restaurant_id=restaurant)
+        discount.save()
+        return redirect('res_viewDiscount')
+    else:
+        return render(request, 'backend/res_addDiscount.html')
+
+def res_viewDiscount(request):
+    discount_list = Discount.objects.all()
+    return render(request, 'backend/res_viewDiscount.html', {"discount_list": discount_list})
+
+def res_deleteDiscount(request, id):
+    discount = Discount.objects.get(id=id)
+    discount.delete()
+    return redirect('res_viewDiscount')

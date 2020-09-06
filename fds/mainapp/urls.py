@@ -13,5 +13,7 @@ urlpatterns = [
     path('res_updateProfile', views.res_updateProfile, name='res_updateProfile'),
     path('res_changePassword', views.res_changePassword, name='res_changePassword'),
     path('res_updatePassword', views.res_updatePassword, name='res_updatePassword'),
-
+    path('res_addDiscount', views.res_addDiscount, name='res_addDiscount'),
+    path('res_viewDiscount', views.res_viewDiscount, name='res_viewDiscount'),
+    path('res_deleteDiscount/<int:id>', views.res_deleteDiscount, name='res_deleteDiscount'),
 ]
