@@ -1,0 +1,79 @@
+{% extends "backend/res_master.html" %} {% block formdemo %}
+<div class="panel-body">
+	<div class="content-area">
+		<div class="sub-bar">
+			<div class="sub-title">
+				<h4>Dashboard:</h4>
+				<span>Welcome To web Admin Panel!</span>
+			</div>
+			<ul class="bread-crumb">
+				<li><a href="#" title="">Home</a></li>
+				<li>Dashbord</li>
+			</ul>
+		</div>
+		<div class="gap no-gap">
+			<form method="POST" action="{%url 'res_updateDish' dish_list.id%}" enctype="multipart/form-data">
+				{%csrf_token%}
+				<div class="inner-bg">
+					<div class="element-title">
+						<h4>Add Dish</h4>
+						<span>Please fill the form bellow.</span>
+					</div>
+					<div class="add-prod-from">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Dish name</label>
+								<input type="text" placeholder="Dish Name" value="{{dish_list.dish_name}}"
+									name="dishname" />
+							</div>
+							<div class="col-md-6">
+								<div class="input-group">
+									<label>price</label>
+									<span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+									<input class="form-control" name="dishprice" value="{{dish_list.price}}"
+										placeholder="In Rupees" type="text" />
+								</div>
+							</div>
+							<div class="col-md-12">
+								<label>Cuisine</label>
+								<select name="cuisine">
+									{% for i in cuisine_list %}
+									<option value="{{i.id}}">{{i.cuisine_name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="col-md-12">
+								<label>Dish Description</label>
+								<textarea cols="30" name="dishdescription" rows="10" placeholder="Describe the Dish">
+{{dish_list.dish_description}}</textarea>
+							</div>
+							<div class="col-md-12">
+								<span class="upload-image">upload image</span>
+								<label class="fileContainer">
+									<span>upload</span>
+									<input type="file" name="dishimage" />
+								</label>
+							</div>
+							<div class="col-md-12">
+								<label>Customization</label>
+								<input type="text" placeholder="Jain Available" value="{{dish_list.customization}}"
+									name="customization" />
+							</div>
+
+							<div class="col-md-12">
+								<div class="buttonz">
+									<button type="submit">Update Change</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="bottombar">
+		<span>© 2019. Dewwater. All Rights Reserved.</span>
+	</div>
+	<!-- bottombar -->
+</div>
+{%endblock%}

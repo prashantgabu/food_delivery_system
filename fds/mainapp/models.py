@@ -1,150 +1,160 @@
 from django.db import models
-#Models.oy file
+# Models.oy file
 ROLE_CHOICE = (
-	('admin', 'Admin'),
-	('buyer', 'Buyer')
+    ('admin', 'Admin'),
+    ('buyer', 'Buyer')
 )
 
 
 class Reg_user(models.Model):
-	name = models.CharField(max_length=100)
-	lname = models.CharField(max_length=100)
-	dob = models.DateField()
-	email = models.EmailField(max_length=100)
-	passowrd = models.CharField(max_length=100)
-	mobile_no = models.IntegerField()
-	profile_pic = models.ImageField(upload_to='profile_picture')
-	address = models.TextField()
-	state = models.CharField(max_length=100)
-	city = models.CharField(max_length=100)
-	pincode = models.IntegerField()
-	role = models.CharField(
-		max_length=100, choices=ROLE_CHOICE, default='buyer')
-	status = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100)
+    dob = models.DateField()
+    email = models.EmailField(max_length=100)
+    passowrd = models.CharField(max_length=100)
+    mobile_no = models.IntegerField()
+    profile_pic = models.ImageField(upload_to='profile_picture')
+    address = models.TextField()
+    state = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    pincode = models.IntegerField()
+    role = models.CharField(
+        max_length=100, choices=ROLE_CHOICE, default='buyer')
+    status = models.CharField(max_length=100)
 
-	class Meta:
-		db_table = "reg_user"
+    class Meta:
+        db_table = "reg_user"
 
 
 class Restaurant(models.Model):
-	name = models.CharField(max_length=100)
-	address = models.TextField()
-	mobile_number = models.IntegerField()
-	pincode = models.IntegerField()
-	email = models.EmailField(max_length=100)
-	password = models.CharField(max_length=100)
-	description = models.TextField()
-	logo = models.ImageField(upload_to='profile_picture')
-	status = models.CharField(max_length=100)
-	cuisine_name = models.CharField(max_length=100)
-	price_for_two = models.IntegerField(null=True)
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+    mobile_number = models.IntegerField()
+    pincode = models.IntegerField()
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=100)
+    description = models.TextField(default="None")
+    logo = models.ImageField(upload_to='res_logo')
+    status = models.CharField(max_length=100)
+    cuisine_name = models.CharField(max_length=100, default="None")
+    price_for_two = models.IntegerField(default="0")
 
-	class Meta:
-		db_table = "restaurant"
+    class Meta:
+        db_table = "restaurant"
 
 
 class Delivery_agent(models.Model):
-	fname = models.CharField(max_length=100)
-	lname = models.CharField(max_length=100)
-	dob = models.DateField()
-	email = models.EmailField(max_length=100)
-	passowrd = models.CharField(max_length=100)
-	mobile_no = models.IntegerField()
-	profile_pic = models.ImageField(upload_to='profile_picture')
-	address = models.TextField()
-	state = models.CharField(max_length=100)
-	city = models.CharField(max_length=100)
-	pincode = models.IntegerField()
-	role = models.CharField(
-		max_length=100, choices=ROLE_CHOICE, default='buyer')
-	status = models.CharField(max_length=100)
-	docs = models.ImageField(upload_to='documents')
+    fname = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100)
+    dob = models.DateField()
+    email = models.EmailField(max_length=100)
+    passowrd = models.CharField(max_length=100)
+    mobile_no = models.IntegerField()
+    profile_pic = models.ImageField(upload_to='d_profilepicture')
+    address = models.TextField()
+    state = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    pincode = models.IntegerField()
+    role = models.CharField(
+        max_length=100, choices=ROLE_CHOICE, default='buyer')
+    status = models.CharField(max_length=100)
+    docs = models.ImageField(upload_to='documents')
 
-	class Meta:
-		db_table = "delivery_agent"
+    class Meta:
+        db_table = "delivery_agent"
 
 
 class Ambience(models.Model):
-	photos = models.ImageField(upload_to='ambience_photos')
-	status = models.CharField(max_length=100, default='SOME STRING')
-	restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    photos = models.ImageField(upload_to='ambience_photos')
+    status = models.CharField(max_length=100, default='SOME STRING')
+    restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "ambience"
+    class Meta:
+        db_table = "ambience"
 
 
 class Cuisine(models.Model):
-	cuisine_name = models.CharField(max_length=100)
-	cuisine_photo = models.ImageField(upload_to='cuisine_photos')
+    cuisine_name = models.CharField(max_length=100)
+    cuisine_photo = models.ImageField(upload_to='cuisine_photos')
 
-	class Meta:
-		db_table = "cuisine"
+    class Meta:
+        db_table = "cuisine"
 
 
 class Dish(models.Model):
-	dish_name = models.CharField(max_length=100)
-	price = models.IntegerField()
-	dish_description = models.TextField(max_length=100)
-	dish_photo = models.ImageField(upload_to='dish_photos/')
-	customization = models.CharField(max_length=100)
-	cuisine_id = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
-	restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    dish_name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    dish_description = models.TextField(max_length=100)
+    dish_photo = models.ImageField(upload_to='dish_photos/')
+    customization = models.CharField(max_length=100)
+    cuisine_id = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
+    restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "dish"
+    class Meta:
+        db_table = "dish"
 
 
 class Discount(models.Model):
-	discount_value = models.IntegerField()
-	discount_description = models.TextField()
-	discount_limit = models.IntegerField()
-	restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    discount_value = models.IntegerField()
+    discount_description = models.TextField()
+    discount_limit = models.IntegerField()
+    restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "discount"
+    class Meta:
+        db_table = "discount"
 
 
 class Cart(models.Model):
-	total_amount = models.FloatField()
-	status = models.CharField(max_length=100)
-	reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
-	dish_id = models.ForeignKey(Dish, on_delete=models.CASCADE)
-	quantity = models.IntegerField()
-	discount_id = models.ForeignKey(Discount, on_delete=models.CASCADE)
+    total_amount = models.FloatField()
+    status = models.CharField(max_length=100)
+    reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
+    dish_id = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    discount_id = models.ForeignKey(Discount, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "cart"
+    class Meta:
+        db_table = "cart"
 
 
 class Order(models.Model):
-	total_amount = models.FloatField()
-	payment_type = models.CharField(max_length=100)
-	order_date = models.DateField()
-	order_time = models.DateTimeField()
-	status = models.CharField(max_length=100)
-	reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
-	cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE)
-	agent_id = models.ForeignKey(Delivery_agent, on_delete=models.CASCADE)
+    total_amount = models.FloatField()
+    payment_type = models.CharField(max_length=100)
+    order_date = models.DateField()
+    order_time = models.DateTimeField()
+    status = models.CharField(max_length=100)
+    reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
+    cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    agent_id = models.ForeignKey(Delivery_agent, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "order"
+    class Meta:
+        db_table = "order"
 
 
 class Food_rating(models.Model):
-	rating = models.IntegerField()
-	review = models.TextField()
-	reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
-	dish_id = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    review = models.TextField()
+    reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
+    dish_id = models.ForeignKey(Dish, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "food_rating"
+    class Meta:
+        db_table = "food_rating"
 
 
 class Agent_rating(models.Model):
-	rating = models.IntegerField()
-	review = models.TextField()
-	reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
-	agent_id = models.ForeignKey(Delivery_agent, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    review = models.TextField()
+    reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
+    agent_id = models.ForeignKey(Delivery_agent, on_delete=models.CASCADE)
 
-	class Meta:
-		db_table = "agent_rating"
+    class Meta:
+        db_table = "agent_rating"
+
+
+class Verification(models.Model):
+    shop_fssai_license = models.ImageField(upload_to="verification_photos")
+    pan_card = models.ImageField(upload_to="verification_photos")
+    gst_number = models.IntegerField(null=True)
+    res_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "verification"

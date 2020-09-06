@@ -1,0 +1,82 @@
+{% extends "backend/res_master.html" %} {% block formdemo %}
+<div class="panel-body">
+    <form method="POST" action="{%url 'res_updateProfile'%}" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="content-area">
+            <div class="sub-bar">
+                <div class="sub-title">
+                    <h4>Dashboard:</h4>
+                    <span>Welcome To web Admin Panel!</span>
+                </div>
+                <ul class="bread-crumb">
+                    <li><a href="#" title="">Home</a></li>
+                    <li>Dashbord</li>
+                </ul>
+            </div>
+            <div class="inner-bg">
+                <div class="element-title">
+                    <h4>Edit profile</h4>
+                    <span>Edit your profile</span>
+                </div>
+                <div class="pnl-bdy billing-sec">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 field">
+                            <span class="upload-image">Restaurant Logo</span>
+                            <img src="" alt="Logo not available" style="height: 30px; width: 30px; border-radius: 50%;">
+                            <label class="fileContainer"> <span>upload</span>
+              <input type="file" name="logo" >
+            </label>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 field">
+                            <label>Restaurant Name <span>*</span> </label>
+                            <input type="text" name="name" value="{{restaurant_list.name}}">
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 field">
+                            <label>Email<span>*</span> </label>
+                            <input value="{{restaurant_list.email}}" disabled type="email" name="email">
+                        </div>
+                        <div class="col-md-6 col-sm-6 field">
+                            <label>Mobile Number<span>*</span> </label>
+                            <input value="{{restaurant_list.mobile_number}}" type="text" name="mobile_number">
+                        </div>
+                        <div class="col-md-6 col-sm-6 field">
+                            <label>Cuisine<span>*</span> </label>
+                            <select name="cuisine">
+                               
+                           {% for cuisine_index in cuisine_list%}
+                     <option value="{{cuisine_index.cuisine_name}}">{{cuisine_index.cuisine_name}}</option>
+                     {%endfor%}
+                        </select>
+                        </div>
+                        <div class="col-md-6 col-sm-6 field">
+                            <label>Price For Two <span>*</span> </label>
+                            <input placeholder="Enter Price for two person" type="number" value="{{restaurant_list.price_for_two}}" name="pricefortwo">
+                        </div>
+                        <div class="col-md-12 col-sm-12 field">
+                            <label>Address Of Restaurant <span>*</span> </label>
+                            <input placeholder="" name="address" value="{{restaurant_list.address}}" type="text">
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 field">
+                            <label>Pincode <span>*</span> </label>
+                            <input placeholder="" name="pincode" value="{{restaurant_list.pincode}}" type="number">
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 field">
+                            <label>Description <span>*</span> </label>
+                            <textarea name="description" cols="30" rows="10" placeholder="Say something about your restaurant.....">{{restaurant_list.description}}</textarea>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <button type="submit">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="bottombar">
+        <span>© 2019. Dewwater. All Rights Reserved.</span>
+    </div>
+    {%endblock%}

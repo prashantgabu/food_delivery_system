@@ -1,0 +1,74 @@
+{% extends "backend/res_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Dish</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Dish Name</th>
+                <th>Price</th>
+                <th>Dish Photo</th>
+                <th>Descriptions</th>
+                <th>Customizations</th>
+                <th>Cuisine</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for dish_index in dish_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{dish_index.dish_name}}</td>
+                <td>{{dish_index.price}}</td>
+                <td>
+                  <img
+                    style="width: 50px; height: 50px"
+                    src="{{dish_index.dish_photo.url}}"
+                    alt="Image Is Not Available"
+                  />
+                </td>
+                <td>{{dish_index.dish_description}}</td>
+                <td>{{dish_index.customization}}</td>
+                <td>{{dish_index.cuisine_id.cuisine_name}}</td>
+                <td>
+                  <a
+                    href="{%url 'res_editDish' dish_index.id%}"
+                    title=""
+                    class="btn-st grn-clr"
+                    ><i class="fa fa-thumbs-o-up"></i>Edit</a
+                  >
+                  <a
+                    href="{%url 'res_deleteDish' dish_index.id%}"
+                    title=""
+                    class="btn-st rd-clr"
+                    ><i class="fa fa-trash"></i>Delete</a
+                  >
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>
