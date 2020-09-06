@@ -73,7 +73,7 @@ def res_viewDish(request):
 def res_editDish(request, id):
     dish = Dish.objects.get(id=id)
     cuisine_list = Cuisine.objects.all()
-    return render(request, 'backend/res_editDish.html', {"dish_list": dish,"cuisine_list":cuisine_list})
+    return render(request, 'backend/res_editDish.html', {"dish_list": dish, "cuisine_list": cuisine_list})
 
 
 def res_updateDish(request, id):
@@ -85,18 +85,17 @@ def res_updateDish(request, id):
         dishdescription = request.POST.get('dishdescription')
         customization = request.POST.get('customization')
         dishimage = request.FILES.get('dishimage', False)
-        if(dishimage==False):
-            dish.dish_photo=dish.dish_photo
+        if(dishimage == False):
+            dish.dish_photo = dish.dish_photo
         else:
-            dish.dish_photo=dishimage
+            dish.dish_photo = dishimage
         cuisine = request.POST.get('cuisine')
         cuisine_id = Cuisine.objects.get(id=cuisine)
-
         dish.dish_name = dishname
         dish.price = dishprice
         dish.dish_description = dishdescription
         dish.customization = customization
-        dish.cuisine = cuisine_id
+        dish.cuisine_id = cuisine_id
         dish.save()
 
         return redirect('res_viewDish')
