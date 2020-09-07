@@ -17,4 +17,5 @@ urlpatterns = [
     path('a_deleteCuisine/<int:id>', views.a_deleteCuisine, name='a_deleteCuisine'),
     path('a_foodReport', views.a_foodReport, name='a_foodReport'),
     path('a_agentReport', views.a_agentReport, name='a_agentReport'),
+    path('a_viewBuyer', views.a_viewBuyer, name='a_viewBuyer'),
 ]

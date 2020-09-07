@@ -114,3 +114,8 @@ def a_foodReport(request):
 def a_agentReport(request):
     report_list = Report.objects.filter(report_type="agent")
     return render(request, 'admin/a_agentReport.html', {"report_list": report_list})
+
+
+def a_viewBuyer(request):
+    buyer_list = Report.objects.all()
+    return render(request, 'admin/a_viewBuyer.html', {"buyer_list": buyer_list})

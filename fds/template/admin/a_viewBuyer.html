@@ -1,0 +1,58 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Buyers</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Buyer ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for buyer_index in restaurant_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{buyer_index.id}}</td>
+                
+                <td>{{buyer_index.fname}} {{buyer_index.lname}}</td>
+                <td>{{buyer_index.email}}</td>
+                <td>{{buyer_index.mobile_no}}</td>
+                <td>{{buyer_index.address}}</td>
+                <td>
+                  <a href="#" title="" class="btn-st grn-clr"><i
+                      class="fa fa-thumbs-o-up"></i>Block</a>
+
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>
