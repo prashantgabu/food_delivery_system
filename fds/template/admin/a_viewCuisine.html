@@ -1,0 +1,56 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Discount</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Cuisine Name</th>
+                <th>Cuisine Photo</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for cuisine_index in cuisine_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{cuisine_index.cuisine_name}}</td>
+                <td>
+                  <img style="width: 50px; height: 50px" src="{{cuisine_index.cuisine_photo.url}}"
+                    alt="Image Is Not Available" />
+                </td>
+
+                <td>
+                  <a href="{%url 'a_editCuisine' cuisine_index.id%}" title="" class="btn-st rd-clr"><i
+                      class="fa fa-trash"></i>Edit</a>
+                  <a href="{%url 'a_deleteCuisine' cuisine_index.id%}" title="" class="btn-st rd-clr"><i
+                      class="fa fa-trash"></i>Delete</a>
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>

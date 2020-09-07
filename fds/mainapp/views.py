@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Restaurant, Dish, Cuisine, Discount
+from . models import Restaurant, Dish, Cuisine, Discount, Ambience, Verification
 from django.contrib import messages
 
 
@@ -32,7 +32,7 @@ def res_register(request):
         pincode = request.POST.get('pincode')
         contactnumber = request.POST.get('contactnumber')
         restaurant = Restaurant(
-            name=name, email=email, password=password, address=address, mobile_number=contactnumber, pincode=pincode)
+            name=name, email=email, password=password,status="notverified", address=address, mobile_number=contactnumber, pincode=pincode)
         restaurant.save()
         print("restaurant object:", restaurant)
         return redirect('res_login')
@@ -166,11 +166,56 @@ def res_addDiscount(request):
     else:
         return render(request, 'backend/res_addDiscount.html')
 
+
 def res_viewDiscount(request):
     discount_list = Discount.objects.all()
     return render(request, 'backend/res_viewDiscount.html', {"discount_list": discount_list})
+
 
 def res_deleteDiscount(request, id):
     discount = Discount.objects.get(id=id)
     discount.delete()
     return redirect('res_viewDiscount')
+
+
+def res_addAmbience(request):
+    if request.method == "POST":
+        ambience_photos = request.FILES['ambiencephotos']
+        res_id = request.session['res_id']
+        restaurant = Restaurant.objects.get(id=res_id)
+        ambience = Ambience(photos=ambience_photos, restaurant_id=restaurant)
+        ambience.save()
+        return redirect('res_viewAmbience')
+    else:
+        return render(request, 'backend/res_addAmbience.html')
+
+
+def res_viewAmbience(request):
+    ambience_list = Ambience.objects.all()
+    return render(request, 'backend/res_viewAmbience.html', {"ambience_list": ambience_list})
+
+
+def res_deleteAmbience(request, id):
+    ambience = Ambience.objects.get(id=id)
+    ambience.delete()
+    return redirect('res_viewAmbience')
+
+
+def res_verification(request):
+    if request.method == "POST":
+        shop_fssai_license = request.FILES['shopfssailicense']
+        pancard = request.FILES['pancard']
+        gst = request.POST.get('gst')
+        res_id = request.session['res_id']
+        restaurant = Restaurant.objects.get(id=res_id)
+        restaurant.status="pending"
+        restaurant.save()
+        verification = Verification(shop_fssai_license=shop_fssai_license,
+                                    pan_card=pancard, gst_number=gst, res_id=restaurant)
+        verification.save()
+        return redirect('res_verification')
+    else:
+        res_id = request.session['res_id']
+        restaurant = Restaurant.objects.get(id=res_id)
+        verification_list = Verification.objects.filter(res_id=restaurant)
+        return render(request, 'backend/res_verification.html', {'verification_list1': verification_list})

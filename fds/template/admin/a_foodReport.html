@@ -1,0 +1,64 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Food Reports</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    {%for report_index in report_list%}
+    <div class="inner-bg">
+      <div class="gap no-top">
+        <div class="tab-style style3">
+          <ul class="nav nav-tabs tab tab-btns">
+            <li class="nav-item"><a class="active show" href="#bs1" data-toggle="tab"><i
+                  class="fa fa-home"></i>Subject</a></li>
+            <li class="nav-item"><a href="#bs2" data-toggle="tab" class=""><i class="fa fa-coffee"></i>Report
+                Message</a></li>
+            <li class="nav-item"><a href="#bs3" data-toggle="tab" class=""><i class="fa fa-cloud-upload"></i>
+                Contact Info</a></li>
+            <li class="nav-item"><a href="#bs4" data-toggle="tab" class=""><i class="fa fa-cloud-upload"></i>
+                Report Details</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active show" id="bs1">
+              <div class="tab-meta">
+                <p>{{report_index.report_subject}}</p>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="bs2">
+              <div class="tab-meta">
+                <p>{{report_index.report_message}}</p>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="bs3">
+              <div class="tab-meta">
+                <p> Buyer's Email{{report_index.reg_user_id.email}}</p>
+                <p> Restaurant's Email{{report_index.order_id.cart_id.dish_id.restaurant_id.email}}</p>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="bs3">
+              <div class="tab-meta">
+                <p>Date And Time:- {{report_index.report_date}}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {%endfor%}
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>

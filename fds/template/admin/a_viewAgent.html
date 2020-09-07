@@ -1,0 +1,59 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Verified Agents</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Agent ID</th>
+                <th>Profile Photo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for agent_index in agent_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{agent_index.id}}</td>
+                <td>
+                  <img style="width: 50px; height: 50px" src="{{agent_index.profile_pic.url}}"
+                    alt="Image Is Not Available" />
+                </td>
+                <td>{{agent_index.fname}} {{agent_index.lname}}</td>
+                <td>{{agent_index.email}}</td>
+                <td>{{agent_index.mobile_no}}</td>
+                <td>
+                  <a href="#" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Details</a>
+
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>

@@ -11,9 +11,13 @@ urlpatterns = [
     path('res_deleteDish/<int:id>', views.res_deleteDish, name='res_deleteDish'),
     path('res_editProfile', views.res_editProfile, name='res_editProfile'),
     path('res_updateProfile', views.res_updateProfile, name='res_updateProfile'),
+    path('res_verification', views.res_verification, name='res_verification'),
     path('res_changePassword', views.res_changePassword, name='res_changePassword'),
     path('res_updatePassword', views.res_updatePassword, name='res_updatePassword'),
     path('res_addDiscount', views.res_addDiscount, name='res_addDiscount'),
     path('res_viewDiscount', views.res_viewDiscount, name='res_viewDiscount'),
     path('res_deleteDiscount/<int:id>', views.res_deleteDiscount, name='res_deleteDiscount'),
+    path('res_addAmbience', views.res_addAmbience, name='res_addAmbience'),
+    path('res_viewAmbience', views.res_viewAmbience, name='res_viewAmbience'),
+    path('res_deleteAmbience/<int:id>', views.res_deleteAmbience, name='res_deleteAmbience'),
 ]

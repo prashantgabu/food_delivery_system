@@ -1,0 +1,55 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>New Orders</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Order ID</th>
+                <th>Order Date And Time</th>
+                <th>Buyer Name</th>
+                <th>Payment Type</th>
+                <th>Total Payment</th>
+                <th>Agent ID</th>
+                <th>Restaurant ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_index in order_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{order_index.id}}</td>
+                <td>{{order_index.order_date}} {{order_index.order_time}}</td>
+                <td>{{order_index.reg_user_id.fname}} {{order_index.reg_user_id.lname}}</td>
+                <td>{{order_index.payment_type}}</td>
+                <td>{{order_index.total_amount}}</td>
+                <td>{{order_index.agent_id.id}}</td>
+                <td>{{order_index.cart_id.dish_id.restaurant_id.name}}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>

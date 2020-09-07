@@ -7,7 +7,7 @@ ROLE_CHOICE = (
 
 
 class Reg_user(models.Model):
-    name = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
     dob = models.DateField()
     email = models.EmailField(max_length=100)
@@ -66,7 +66,7 @@ class Delivery_agent(models.Model):
 
 class Ambience(models.Model):
     photos = models.ImageField(upload_to='ambience_photos')
-    status = models.CharField(max_length=100, default='SOME STRING')
+    status = models.CharField(max_length=100, default='Not Verified')
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     class Meta:
@@ -153,8 +153,19 @@ class Agent_rating(models.Model):
 class Verification(models.Model):
     shop_fssai_license = models.ImageField(upload_to="verification_photos")
     pan_card = models.ImageField(upload_to="verification_photos")
-    gst_number = models.IntegerField(null=True)
+    gst_number = models.CharField(max_length=100,null=True,blank=True)
     res_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "verification"
+
+
+class Report(models.Model):
+    report_type = models.CharField(max_length=100,null=True,blank=True)
+    report_subject= models.CharField(max_length=100,null=True,blank=True)
+    report_date= models.DateTimeField(max_length=100)
+    report_message= models.CharField(max_length=100,null=True,blank=True)
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "report"

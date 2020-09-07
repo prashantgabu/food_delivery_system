@@ -71,8 +71,9 @@
                                             <li class="menu-item-has-children"> <a title=""><i
                                                         class="fa fa-shopping-cart"></i><span>Ambience</span></a>
                                                 <ul class="mega">
-                                                    <li><a href="product.html" title="">Add Ambience</a></li>
-                                                    <li><a href="product-detail.html">View Ambience</a></li>
+                                                    <li><a href="{%url 'res_addAmbience'%}" title="">Add Ambience</a>
+                                                    </li>
+                                                    <li><a href="{%url 'res_viewAmbience'%}">View Ambience</a></li>
                                                 </ul>
                                             </li>
                                             <li class="menu-item-has-children"> <a title="#"><i
@@ -276,7 +277,8 @@
                                                             Profile</a> </li>
                                                     <li> <a href="{%url 'res_changePassword'%}" title=""><i
                                                                 class="fa fa-envelope-o"></i>Change Password</a> </li>
-                                                    <li> <a href="#" title=""><i class="fa fa-adjust"></i>task</a> </li>
+                                                    <li> <a href="{%url 'res_verification'%}" title=""><i
+                                                                class="fa fa-adjust"></i>Document Verification</a> </li>
                                                     <li> <a href="#" title=""><i class="fa fa-calendar"></i>Calender</a>
                                                     </li>
                                                     <li> <a href="#" title=""><i class="fa fa-align-right"></i>Balance

@@ -1,0 +1,53 @@
+{% extends "backend/res_master.html" %} {% block formdemo %}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Ambience</h4>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="gap inner-bg">
+      <div class="table-styles">
+        <div class="widget">
+          <table id="example" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Ambience</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ambience_index in ambience_list%}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>
+                  <img style="width: 50px; height: 50px" src="{{ambience_index.photos.url}}"
+                    alt="Image Is Not Available" />
+                </td>
+                <td>{{ambience_index.status}}</td>
+                <td>
+                  <a href="{%url 'res_deleteAmbience' ambience_index.id%}" title="" class="btn-st rd-clr"><i
+                      class="fa fa-trash"></i>Delete</a>
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+
+  <!-- bottombar -->
+  {%endblock%}
+</div>

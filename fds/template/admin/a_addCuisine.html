@@ -1,0 +1,59 @@
+{% extends "admin/a_master.html" %}
+{% block formdemo %}
+<div class="panel-body">
+
+    <div class="content-area">
+        <div class="sub-bar">
+            <div class="sub-title">
+                <h4>Dashboard:</h4>
+                <span>Welcome To web Admin Panel!</span>
+            </div>
+            <ul class="bread-crumb">
+                <li><a href="#" title="">Home</a></li>
+                <li>Dashbord</li>
+            </ul>
+        </div>
+        <div class="gap no-gap">
+            <form method="POST" action="{%url 'a_addCuisine'%}" enctype="multipart/form-data">
+                {%csrf_token%}
+                <div class="inner-bg">
+                    <div class="element-title">
+                        <h4>Add Cuisine</h4>
+                        <span>Please fill the form bellow.</span>
+                    </div>
+                    <div class="add-prod-from">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Cuisine name</label>
+                                <input type="text" placeholder="Cuisine Name" name="cuisinename">
+                            </div>
+
+
+
+                            <div class="col-md-12"> <span class="upload-image">Upload
+                                    Cuisine Photo</span>
+                                <label class="fileContainer"> <span>upload</span>
+                                    <input type="file" name="cuisineimage" />
+                                </label>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="buttonz">
+                                    <button type="submit">Add Cuisine</button>
+                                    <button type="reset">Reset</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="bottombar">
+        <span>© 2019. Dewwater. All Rights Reserved.</span>
+    </div>
+    <!-- bottombar -->
+</div>
+{%endblock%}
