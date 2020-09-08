@@ -39,9 +39,7 @@
                 <td>{{res_index.mobile_number}}</td>
                 <td>{{res_index.address}}</td>
                 <td>
-                  <a href="#" title="" class="btn-st grn-clr"><i
-                      class="fa fa-thumbs-o-up"></i>View Details</a>
-
+                  <a href="{%url 'a_viewResDetails' res_index.id%}" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Details</a>
                 </td>
               </tr>
               {%endfor%}
@@ -57,5 +55,5 @@
   </div>
 
   <!-- bottombar -->
-  {%endblock%}
-</div>
+  
+</div>{%endblock%}

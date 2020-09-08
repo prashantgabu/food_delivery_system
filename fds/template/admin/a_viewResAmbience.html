@@ -1,0 +1,42 @@
+<!-- responsive header -->
+{% extends "admin/a_master.html" %} {% block formdemo %}
+{%load static%}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>{{dish_list.restaurant_id.name}}</h4>
+        <span></span>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="inner-bg">
+      <div class="mega-menu demo">
+        <div class="col-md-12">
+          <h4>Ambience Offered By Restaurant</h4>
+          <ul class="megamenu-caro">
+            {%for ambience_index in ambience_list%}
+            <li> <img style="width: 380px; height: 350px;" src="{{ambience_index.photos.url}}"
+                alt="Image Not Found">
+            </li>
+            {%endfor%}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+  <!-- bottombar -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>{%endblock%}

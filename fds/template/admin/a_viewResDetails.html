@@ -1,0 +1,80 @@
+{% extends "admin/a_master.html" %} {% block formdemo %}
+{%load static%}
+<div class="panel-body">
+
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>Dashboard:</h4>
+        <span>Welcome To web Admin Panel!</span>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="profile">
+      <div class="row merged">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <div class="profile-bg"> <img src="{% static 'backend/images/profile-bg.jpg'%}" alt="">
+            <div class="admin-meta"> <img src="{% static 'backend/images/profile-avatar.jpg'%}" alt="">
+              <h5>{{restaurant_list.name}}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12">
+          <div class="row">
+
+            <div class="col-md-12 col-sm-12 ">
+              <ul class="profile-socials">
+                <li><a class="facebook" href="mailto:{{restaurant_list.email}}" title=""><i
+                      class="fa fa-google"></i></a></li>
+                <li><a class="twitter" href="#" title=""><i class="fa fa-mobile-phone"></i></a></li>
+                <p>{{restaurant_list.description}}</p>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="about">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="about-info">
+                  <h4>About Restaurant:</h4>
+                  
+                  <p>Cuisines:-{{restaurant_list.cuisine_name}}</p>
+                  <p>Price For Two:-{{restaurant_list.price_for_two}}</p>
+                  
+
+                  <p>Address:-{{restaurant_list.address}}</p>
+                  <p>Pincode:-{{restaurant_list.pincode}}</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <ul class="vlaue-show">
+                  <li> <span>37</span> <a href="{%url 'a_viewResDish' restaurant_list.id %}" title="">Dishes</a></li>
+                  <li> <span>59</span> <a href="{%url 'a_viewResAmbience' restaurant_list.id %}" title="">Ambience</a> </li>
+                  <li> <span>60</span> <a href="#" title="">Total Orders</a> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+  <!-- bottombar -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{%endblock%}
