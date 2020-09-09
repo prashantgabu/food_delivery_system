@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .  models import Admin_tb
-from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish,Ambience
+from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience,Verification
 
 
 def a_login(request):
@@ -35,6 +35,11 @@ def a_viewRestaurant(request):
 def a_restaurantRequest(request):
     restaurant_list = Restaurant.objects.filter(status="pending")
     return render(request, "admin/a_restaurantRequest.html", {'restaurant_list': restaurant_list})
+
+
+def a_viewResRequest(request,id):
+    docs = Verification.objects.get(res_id=id)
+    return render(request, "admin/a_viewResRequest.html", {'docs': docs})
 
 
 def a_viewResDetails(request, id):

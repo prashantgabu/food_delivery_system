@@ -1,0 +1,42 @@
+<!-- responsive header -->
+{% extends "admin/a_master.html" %} {% block formdemo %}
+{%load static%}
+<div class="panel-body">
+  <div class="content-area">
+    <div class="sub-bar">
+      <div class="sub-title">
+        <h4>{{docs.res_id.name}}</h4>
+        <span></span>
+      </div>
+      <ul class="bread-crumb">
+        <li><a href="#" title="">Home</a></li>
+        <li>Dashbord</li>
+      </ul>
+    </div>
+    <div class="inner-bg">
+      <div class="mega-menu demo">
+        <div class="col-md-12">
+          <h2>Documents Uploaded By Restaurant</h2>
+          <br>
+          <h4>Gst Number:-{{docs.gst_number}}</h4>
+          <hr>
+          <div>Shop Or Fssai License</div>
+          <img style="width: 180px; height: 150px;" src="{{docs.shop_fssai_license.url}}" alt="Image Not Found">
+          <div>Pancard</div>
+          <img style="width: 180px; height: 150px;" src="{{docs.pan_card.url}}" alt="Image Not Found">
+        </div>
+      </div>
+      <a href=""><button class="">Verify Restaurant</button></a>
+    </div>
+  </div>
+  <div class="bottombar">
+    <span>© 2019. Dewwater. All Rights Reserved.</span>
+  </div>
+  <!-- bottombar -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>{%endblock%}

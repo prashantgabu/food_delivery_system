@@ -38,8 +38,7 @@
                 <td>{{res_index.mobile_number}}</td>
                 <td>{{res_index.address}}</td>
                 <td>
-                  <a href="#" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Details</a>
-
+                  <a href="{%url 'a_viewResRequest' res_index.id%}" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Documents</a>
                 </td>
               </tr>
               {%endfor%}

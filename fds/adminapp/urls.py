@@ -8,6 +8,7 @@ urlpatterns = [
     path('a_viewResDetails/<int:id>', views.a_viewResDetails, name='a_viewResDetails'),
     path('a_viewResDish/<int:id>', views.a_viewResDish, name='a_viewResDish'),
     path('a_viewResAmbience/<int:id>', views.a_viewResAmbience, name='a_viewResAmbience'),
+    path('a_viewResRequest/<int:id>', views.a_viewResRequest, name='a_viewResRequest'),
     path('a_viewAgent', views.a_viewAgent, name='a_viewAgent'),
     path('a_agentRequest', views.a_agentRequest, name='a_agentRequest'),
     path('a_newOrder', views.a_newOrder, name='a_newOrder'),
