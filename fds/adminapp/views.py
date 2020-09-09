@@ -41,6 +41,28 @@ def a_viewResRequest(request,id):
     docs = Verification.objects.get(res_id=id)
     return render(request, "admin/a_viewResRequest.html", {'docs': docs})
 
+def a_verifyRestaurant(request,id):
+    restaurant= Restaurant.objects.get(id=id)
+    restaurant.status="verified"
+    restaurant.save()
+    return redirect('a_restaurantRequest')
+
+
+def a_blockRestaurant(request,id):
+    restaurant= Restaurant.objects.get(id=id)
+    restaurant.status="blocked"
+    restaurant.save()
+    return redirect('a_viewRestaurant')
+
+
+def a_rejectRestaurant(request,id):
+    restaurant= Restaurant.objects.get(id=id)
+    restaurant.status="rejected"
+    restaurant.save()
+    verification= Verification.objects.get(res_id=id)
+    verification.delete()
+    return redirect('a_restaurantRequest')
+
 
 def a_viewResDetails(request, id):
     restaurant_list = Restaurant.objects.get(id=id)

@@ -15,18 +15,29 @@
     </div>
     <div class="inner-bg">
       <div class="mega-menu demo">
-        <div class="col-md-12">
+        <div class="col-md-12" style="float: left;">
           <h2>Documents Uploaded By Restaurant</h2>
           <br>
           <h4>Gst Number:-{{docs.gst_number}}</h4>
           <hr>
-          <div>Shop Or Fssai License</div>
-          <img style="width: 180px; height: 150px;" src="{{docs.shop_fssai_license.url}}" alt="Image Not Found">
-          <div>Pancard</div>
-          <img style="width: 180px; height: 150px;" src="{{docs.pan_card.url}}" alt="Image Not Found">
+          <div style="font-size: 20px; float: left;" class="col-md-6">Shop Or Fssai License</div>
+          <div class="col-md-6" style="float: left;">
+            <img style="width: 180px; height: 150px;" src="{{docs.shop_fssai_license.url}}" alt="Image Not Found">
+            <hr>
+          </div>
+          <div style="font-size: 20px; float: left;" class="col-md-6">Pancard</div>
+          <div class="col-md-6" style="float: left;">
+            <img style="width: 180px; height: 150px;" src="{{docs.pan_card.url}}" alt="Image Not Found">
+          </div>
         </div>
       </div>
-      <a href=""><button class="">Verify Restaurant</button></a>
+      <br>
+      <div style="float: left;margin-top: 27px; margin-left: 350px;" >
+        <a href="{%url 'a_verifyRestaurant' docs.res_id.id%}"><button class="btn-st grn-clr">Verify
+            Restaurant</button></a>
+        <a href="{%url 'a_rejectRestaurant' docs.res_id.id%}"><button class="btn-st rd-clr">Reject
+            Restaurant</button></a>
+      </div>
     </div>
   </div>
   <div class="bottombar">

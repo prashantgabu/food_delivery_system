@@ -39,7 +39,8 @@
                 <td>{{res_index.mobile_number}}</td>
                 <td>{{res_index.address}}</td>
                 <td>
-                  <a href="{%url 'a_viewResDetails' res_index.id%}" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Details</a>
+                  <div><a href="{%url 'a_viewResDetails' res_index.id%}" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Details</a></div>
+                  <div style="margin-top: 10px;"><a href="{%url 'a_blockRestaurant' res_index.id%}" title="" class="btn-st rd-clr"><i class="fa fa-close"></i>Block</a></div>
                 </td>
               </tr>
               {%endfor%}
