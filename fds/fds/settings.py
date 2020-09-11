@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'mainapp',
     'adminapp',
     'agent',
+    'buyer',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

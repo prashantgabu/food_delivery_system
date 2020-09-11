@@ -1,26 +1,16 @@
 from django.db import models
-# Models.oy file
-ROLE_CHOICE = (
-    ('admin', 'Admin'),
-    ('buyer', 'Buyer')
-)
-
 
 class Reg_user(models.Model):
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
     dob = models.DateField()
     email = models.EmailField(max_length=100)
-    passowrd = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
     mobile_no = models.IntegerField()
-    profile_pic = models.ImageField(upload_to='profile_picture')
+    profile_pic = models.ImageField(upload_to='profile_picture',default="None")
     address = models.TextField()
-    state = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
     pincode = models.IntegerField()
-    role = models.CharField(
-        max_length=100, choices=ROLE_CHOICE, default='buyer')
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100,default="not verified")
 
     class Meta:
         db_table = "reg_user"
@@ -34,8 +24,8 @@ class Restaurant(models.Model):
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     description = models.TextField(default="None")
-    logo = models.ImageField(upload_to='res_logo')
-    status = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='res_logo',default="None")
+    status = models.CharField(max_length=100,default="not verified")
     cuisine_name = models.CharField(max_length=100, default="None")
     price_for_two = models.IntegerField(default="0")
 
@@ -53,7 +43,7 @@ class Delivery_agent(models.Model):
     profile_pic = models.ImageField(upload_to='d_profilepicture',default="None")
     address = models.TextField()
     pincode = models.IntegerField()
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100,default="not verified")
     
 
     class Meta:
@@ -61,8 +51,8 @@ class Delivery_agent(models.Model):
 
 
 class Ambience(models.Model):
-    photos = models.ImageField(upload_to='ambience_photos')
-    status = models.CharField(max_length=100, default='Not Verified')
+    photos = models.ImageField(upload_to='ambience_photos',default="None")
+    status = models.CharField(max_length=100, default='not verified')
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     class Meta:
@@ -71,7 +61,7 @@ class Ambience(models.Model):
 
 class Cuisine(models.Model):
     cuisine_name = models.CharField(max_length=100)
-    cuisine_photo = models.ImageField(upload_to='cuisine_photos')
+    cuisine_photo = models.ImageField(upload_to='cuisine_photos',default="None")
 
     class Meta:
         db_table = "cuisine"
@@ -81,7 +71,7 @@ class Dish(models.Model):
     dish_name = models.CharField(max_length=100)
     price = models.IntegerField()
     dish_description = models.TextField(max_length=100)
-    dish_photo = models.ImageField(upload_to='dish_photos/')
+    dish_photo = models.ImageField(upload_to='dish_photos',default="None")
     customization = models.CharField(max_length=100)
     cuisine_id = models.ForeignKey(Cuisine, on_delete=models.CASCADE)
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
@@ -147,8 +137,8 @@ class Agent_rating(models.Model):
 
 
 class Verification(models.Model):
-    shop_fssai_license = models.ImageField(upload_to="verification_photos")
-    pan_card = models.ImageField(upload_to="verification_photos")
+    shop_fssai_license = models.ImageField(upload_to="verification_photos",default="None")
+    pan_card = models.ImageField(upload_to="verification_photos",default="None")
     gst_number = models.CharField(max_length=100, null=True, blank=True)
     res_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
