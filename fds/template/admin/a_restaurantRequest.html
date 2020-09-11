@@ -1,4 +1,5 @@
 {% extends "admin/a_master.html" %} {% block formdemo %}
+
 <div class="panel-body">
   <div class="content-area">
     <div class="sub-bar">
@@ -12,9 +13,9 @@
     </div>
     <div class="gap inner-bg">
       <div class="table-styles">
-        <div class="widget">
-          <table id="example" class="display" style="width: 100%">
-            <thead>
+        <div class="widget table-responsive" >
+          <table id="example" class="display table" style="width: 100%">
+            <thead class="">
               <tr>
                 <th>Sr No.</th>
                 <th>Logo</th>
@@ -38,7 +39,8 @@
                 <td>{{res_index.mobile_number}}</td>
                 <td>{{res_index.address}}</td>
                 <td>
-                  <a href="{%url 'a_viewResRequest' res_index.id%}" title="" class="btn-st grn-clr"><i class="fa fa-thumbs-o-up"></i>View Documents</a>
+                  <a href="{%url 'a_viewResRequest' res_index.id%}" title="" class="btn-st grn-clr"><i
+                      class="fa fa-thumbs-o-up"></i>View Documents</a>
                 </td>
               </tr>
               {%endfor%}

@@ -48,17 +48,13 @@ class Delivery_agent(models.Model):
     lname = models.CharField(max_length=100)
     dob = models.DateField()
     email = models.EmailField(max_length=100)
-    passowrd = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
     mobile_no = models.IntegerField()
-    profile_pic = models.ImageField(upload_to='d_profilepicture')
+    profile_pic = models.ImageField(upload_to='d_profilepicture',default="None")
     address = models.TextField()
-    state = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
     pincode = models.IntegerField()
-    role = models.CharField(
-        max_length=100, choices=ROLE_CHOICE, default='buyer')
     status = models.CharField(max_length=100)
-    docs = models.ImageField(upload_to='documents')
+    
 
     class Meta:
         db_table = "delivery_agent"
@@ -153,7 +149,7 @@ class Agent_rating(models.Model):
 class Verification(models.Model):
     shop_fssai_license = models.ImageField(upload_to="verification_photos")
     pan_card = models.ImageField(upload_to="verification_photos")
-    gst_number = models.CharField(max_length=100,null=True,blank=True)
+    gst_number = models.CharField(max_length=100, null=True, blank=True)
     res_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     class Meta:
@@ -161,10 +157,10 @@ class Verification(models.Model):
 
 
 class Report(models.Model):
-    report_type = models.CharField(max_length=100,null=True,blank=True)
-    report_subject= models.CharField(max_length=100,null=True,blank=True)
-    report_date= models.DateTimeField(max_length=100)
-    report_message= models.CharField(max_length=100,null=True,blank=True)
+    report_type = models.CharField(max_length=100, null=True, blank=True)
+    report_subject = models.CharField(max_length=100, null=True, blank=True)
+    report_date = models.DateTimeField(max_length=100)
+    report_message = models.CharField(max_length=100, null=True, blank=True)
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     class Meta:

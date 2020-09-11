@@ -1,0 +1,53 @@
+{% extends "agent/agent_master.html" %}
+{% block formdemo %}
+<div class="panel-body">
+    <div class="content-area">
+        <div class="sub-bar">
+            <div class="sub-title">
+                <h4>Accepted Order:</h4>
+                <span>Welcome To web Admin Panel!</span>
+            </div>
+            <ul class="bread-crumb">
+                <li><a href="#" title="">Home</a></li>
+                <li>Dashbord</li>
+            </ul>
+        </div>
+        <div class="row">
+            {% for order_index in order_list%}
+            <div class="col-lg-8">
+                <div class="row merged">
+                    <div class="col-lg-5 col-sm-4">
+                        <div class="events">
+                            <div class="event-head">
+                                <h5>{{order_index.cart_id.dish_id.restaurant_id.name}}</h5>
+                            </div>
+                            <ul class="event-detail">
+                                <li> <span>Address:-</span>
+                                    <h6><span>{{order_index.cart_id.dish_id.restaurant_id.address}}</span></h6>
+                                    <p>Restaurant Number:- {{order_index.cart_id.dish_id.restaurant_id.mobile_number}}
+                                    </p>
+                                </li>
+                                <li> <span>Delivery Address:-</span>
+                                    <h6><span>{{order_index.reg_user_id.address}}</span></h6>
+                                    <p>Buyer's Number:- {{order_index.reg_user_id.mobile_no}}</p>
+                                </li>
+                                <li> <span>Payment Details</span>
+                                    <h6><span>{{order_index.payment_type}}</span></h6>
+                                    <p>Total Amount:- {{order_index.total_amount}}</p>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <div class="bottombar">
+        <span>© 2019. Dewwater. All Rights Reserved.</span>
+    </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,82 @@
+{% extends "agent/agent_master.html" %}
+{% block formdemo %}
+
+<div class="panel-body">
+
+    <div class="content-area">
+        <div class="inner-bg">
+            <div class="sub-bar">
+                <div class="sub-title">
+                    <h4>Dashboard:</h4>
+                    <span>Welcome To web Admin Panel!</span>
+                </div>
+                <ul class="bread-crumb">
+                    <li><a href="#" title="">Home</a></li>
+                    <li>Dashbord</li>
+                </ul>
+            </div>
+            <div class="gap no-gap">
+                <form method="POST" action="{%url 'agent_verification'%}" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <div class="inner-bg">
+                        <div class="element-title">
+                            <h4>Verificaiton</h4>
+                            <span>Please fill the form bellow.</span>
+                        </div>
+                        <div class="add-prod-from">
+                            <div class="row">
+
+                                <div class="col-md-12"> <span class="upload-image">Upload Driving License</span>
+                                    <label class="fileContainer"> <span>upload</span>
+                                        <input type="file" name="driving_license" />
+                                    </label>
+                                </div>
+                                <div class="col-md-12"> <span class="upload-image">Upload Aadhar card</span>
+                                    <label class="fileContainer"> <span>upload</span>
+                                        <input type="file" name="aadhar_card" />
+                                    </label>
+                                </div>
+                                <div class="col-md-12"> <span class="upload-image">Upload Passbook</span>
+                                    <label class="fileContainer"> <span>upload</span>
+                                        <input type="file" name="passbook" />
+                                    </label>
+                                </div>
+                               
+                                <div class="col-md-12">
+                                    <div class="buttonz">
+                                        <button type="submit">Upload</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="mega-menu demo">
+                {% for agent_docs_list in agent_docs_list%}
+                <div class="row mega-style1">
+                    <div class="col-md-4 col-sm-4"> <img src="{{agent_docs_list.driving_license.url}}"
+                            alt="Not Uploaded">
+                        <div class="mega-post-info"> <span>Driving License</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4"> <img src="{{agent_docs_list.aadhar_card.url}}" alt="Not Uploaded">
+                        <div class="mega-post-info"> <span>Aadhar card</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4"> <img src="{{agent_docs_list.passbook.url}}" alt="Not Uploaded">
+                        <div class="mega-post-info"> <span>Passbook</span>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="bottombar">
+            <span>© 2019. Dewwater. All Rights Reserved.</span>
+        </div>
+        <!-- bottombar -->
+    </div>
+</div>
+{%endblock%}

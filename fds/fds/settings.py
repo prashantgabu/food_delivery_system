@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'mainapp',
     'adminapp',
+    'agent',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,3 +134,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'mediafiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"staticfiles")
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'heydoctorinfo@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = 'testemaildoctor'
+EMAIL_PORT = 587
+EMAIL_USE_TLS=True
+#EMAIL_USE_SSL=False

@@ -32,7 +32,7 @@ def res_register(request):
         pincode = request.POST.get('pincode')
         contactnumber = request.POST.get('contactnumber')
         restaurant = Restaurant(
-            name=name, email=email, password=password,status="notverified", address=address, mobile_number=contactnumber, pincode=pincode)
+            name=name, email=email, password=password, status="notverified", address=address, mobile_number=contactnumber, pincode=pincode)
         restaurant.save()
         print("restaurant object:", restaurant)
         return redirect('res_login')
@@ -122,7 +122,11 @@ def res_updateProfile(request):
     cuisine_name = request.POST.get('cuisine')
     description = request.POST.get('description')
     pricefortwo = request.POST.get('pricefortwo')
-    logo = request.FILES['logo']
+    logo = request.FILES.get('logo', False)
+    if(logo == False):
+        restaurant.logo = restaurant.logo
+    else:
+        restaurant.logo = logo
     restaurant.name = name
     restaurant.address = address
     restaurant.pincode = pincode
@@ -130,7 +134,6 @@ def res_updateProfile(request):
     restaurant.cuisine_name = cuisine_name
     restaurant.description = description
     restaurant.price_for_two = pricefortwo
-    restaurant.logo = logo
     restaurant.save()
     return redirect('res_dashboard')
 

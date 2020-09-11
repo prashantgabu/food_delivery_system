@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .  models import Admin_tb
-from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience,Verification
+from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification
+from django.core.mail import send_mail
 
 
 def a_login(request):
@@ -37,29 +38,33 @@ def a_restaurantRequest(request):
     return render(request, "admin/a_restaurantRequest.html", {'restaurant_list': restaurant_list})
 
 
-def a_viewResRequest(request,id):
+def a_viewResRequest(request, id):
     docs = Verification.objects.get(res_id=id)
     return render(request, "admin/a_viewResRequest.html", {'docs': docs})
 
-def a_verifyRestaurant(request,id):
-    restaurant= Restaurant.objects.get(id=id)
-    restaurant.status="verified"
+
+def a_verifyRestaurant(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    restaurant.status = "verified"
     restaurant.save()
     return redirect('a_restaurantRequest')
 
 
-def a_blockRestaurant(request,id):
-    restaurant= Restaurant.objects.get(id=id)
-    restaurant.status="blocked"
+def a_blockRestaurant(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    restaurant.status = "blocked"
     restaurant.save()
     return redirect('a_viewRestaurant')
 
 
-def a_rejectRestaurant(request,id):
-    restaurant= Restaurant.objects.get(id=id)
-    restaurant.status="rejected"
+def a_rejectRestaurant(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    restaurant.status = "rejected"
+    email = restaurant.email
+    send_mail('Rejection of account verifiaction request', 'Sorry, the documents you uploaded is not eligible for the approval.',
+              'heydoctorinfo@gmail.com', [email], fail_silently=False,)
     restaurant.save()
-    verification= Verification.objects.get(res_id=id)
+    verification = Verification.objects.get(res_id=id)
     verification.delete()
     return redirect('a_restaurantRequest')
 

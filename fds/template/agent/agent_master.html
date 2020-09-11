@@ -9,10 +9,6 @@
     <meta name="keywords" content="" />
     <title>Restaurant Dashboard</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css" />
 
 
     <link rel="icon" type="image/png" href="{% static 'backend/images/fav.png'%}">
@@ -55,52 +51,16 @@
                                     <nav class="slide-menu">
                                         <ul class="parent-menu">
                                             <li class="menu-item-has-children"> <a title=""><i
-                                                        class="fa fa-dashboard"></i><span>Restaurants</span></a>
+                                                        class="fa fa-dashboard"></i><span>Order</span></a>
                                                 <ul class="mega">
-                                                    <li><a class="" href="{%url 'a_viewRestaurant'%}" title="">View
-                                                            Restaurants</a>
+                                                    <li><a class="" href="{% url 'agent_viewNewOrder'%}" title="">New Orders</a>
                                                     </li>
-                                                    <li><a href="{%url 'a_restaurantRequest'%}" title="">Restaurant
-                                                            Requests</a></li>
+                                                    <li><a href="{% url 'agent_viewAcceptedOrder'%}" title="">Accepted Order</a></li>
+                                                    <li><a href="{% url 'agent_viewOrderHistory'%}" title="">Order history</a></li>
                                                 </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"> <a title=""><i
-                                                        class="fa fa-laptop"></i><span>Delivery Agents</span></a>
-                                                <ul class="mega">
-                                                    <li><a href="{%url 'a_viewAgent'%}" title="">View Agents</a></li>
-                                                    <li><a href="{%url 'a_agentRequest'%}" title="">Agent Requests</a>
-                                                    </li>
-
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"> <a title=""><i
-                                                        class="fa fa-shopping-cart"></i><span>Orders</span></a>
-                                                <ul class="mega">
-                                                    <li><a href="{%url 'a_newOrder'%}">New Orders</a></li>
-                                                    <li><a href="{%url 'a_ongoingOrder'%}" title="">Ongoing Orders</a>
-                                                    </li>
-                                                    <li><a href="{%url 'a_completedOrder'%}">Completed Orders</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"> <a title="#"><i
-                                                        class="fa fa-bookmark-o"></i><span>Cuisine</span></a>
-                                                <ul>
-                                                    <li><a href="{%url 'a_addCuisine'%}">Add Cuisine</a></li>
-                                                    <li><a href="{%url 'a_viewCuisine'%}">View Cuisine</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"> <a title="#"><i
-                                                        class="fa fa-bookmark-o"></i><span>Reports</span></a>
-                                                <ul>
-                                                    <li><a href="{%url 'a_foodReport'%}">View Food Reports</a></li>
-                                                    <li><a href="{%url 'a_agentReport'%}">View Agent Reports</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="{%url 'a_viewBuyer'%}" title=""><i
-                                                        class="fa fa-inbox"></i><span>View
-                                                        Buyers</span></a></li>
-                                            <li><a href="" title=""><i class="fa fa-bar-chart"></i><span>View
-                                                        Feedbacks</span></a></li>
+                                            <li><a href="inbox.html" title=""><i class="fa fa-inbox"></i><span>Report Buyer</span></a></li>
+                                            <li><a href="inbox.html" title=""><i class="fa fa-inbox"></i><span>Ratings</span></a></li>
+                                            <li><a href="inbox.html" title=""><i class="fa fa-inbox"></i><span>Give Feedback</span></a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -286,17 +246,15 @@
                                             <div class="drop setting"> <span class="drop-head">stifen Doe <i>30 days
                                                         trial</i></span>
                                                 <ul class="drop-meta">
-                                                    <li> <a href="{%url 'res_editProfile'%}" title=""><i
+                                                    <li> <a href="{%url 'agent_editProfile'%}" title=""><i
                                                                 class="fa fa-eyedropper"></i>Edit
                                                             Profile</a> </li>
-                                                    <li> <a href="{%url 'res_changePassword'%}" title=""><i
+                                                    <li> <a href="{%url 'agent_changePassword'%}" title=""><i
                                                                 class="fa fa-envelope-o"></i>Change Password</a> </li>
-                                                    <li> <a href="{%url 'res_verification'%}" title=""><i
-                                                                class="fa fa-adjust"></i>Document Verification</a> </li>
-                                                    <li> <a href="#" title=""><i class="fa fa-calendar"></i>Calender</a>
-                                                    </li>
-                                                    <li> <a href="#" title=""><i class="fa fa-align-right"></i>Balance
-                                                            Report</a> </li>
+                                                    <li> <a href="{%url 'agent_verification'%}" title=""><i
+                                                                class="fa fa-adjust"></i>Verification</a> </li>
+                                                   
+                                                
                                                 </ul>
                                                 <span class="drop-bottom"><a href="#" title=""><i
                                                             class="fa fa-sign-out"></i>log Out</a></span>
@@ -473,10 +431,6 @@
     <script src="{% static 'backend/js/custom2.js' %}"></script>
     <script src="{% static 'backend/js/jvectormap.js' %}"></script>
     <!-- jvactor map -->
-    <script type="text/javascript"
-        src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript"
-        src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
@@ -487,10 +441,6 @@
     <script>
         $(document).ready(function () {
             $('#example').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
-                },
-                responsive: true,
                 dom: 'Bfrtip',
                 buttons: [
                     'copyHtml5',
