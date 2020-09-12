@@ -1,0 +1,82 @@
+{% extends "buyer/buyer_master.html" %} {% block formdemo %}
+<!-- checkout page -->
+<div class="privacy">
+	<div class="container">
+		<!-- tittle heading -->
+		<h3 class="tittle-w3l">Checkout
+			<span class="heading-style">
+				<i></i>
+				<i></i>
+				<i></i>
+			</span>
+		</h3>
+		<!-- //tittle heading -->
+		<div class="checkout-right">
+			<h4>Your shopping cart contains:
+				<span>{{cart_list|length}} Product(s)</span>
+			</h4>
+			<div class="table-responsive">
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>SL No.</th>
+							<th>Product</th>
+							<th>Quantity</th>
+							<th>Dish Name</th>
+
+							<th>Price</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						{%for cart_index in cart_list%}
+						<tr class="rem1">
+							<td class="invert">1</td>
+							<td class="invert-image">
+								<a href="single2.html">
+									<img style="width: 100px;height: 100px;" src="{{cart_index.dish_id.dish_photo.url}}"
+										alt=" " class="img-responsive">
+								</a>
+							</td>
+							<td class="invert">
+								<div class="quantity">
+									<div class="quantity-select">
+
+										<div class="entry value">
+											<span>{{cart_index.quantity}}</span>
+										</div>
+
+									</div>
+								</div>
+							</td>
+							<td class="invert">{{cart_index.dish_id.dish_name}}</td>
+							<td class="invert">{{cart_index.dish_id.price}} x {{cart_index.quantity}} =
+								{{cart_index.total_amount}}</td>
+							<td class="invert">
+								<div class="rem">
+									<a href="{%url 'buyer_removeDish' cart_index.id%} ">
+										<div class="close1"> </div>
+									</a>
+								</div>
+							</td>
+						</tr>
+						{%endfor%}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="checkout-left">
+			<div class="address_form_agile">
+
+				<div class="checkout-right-basket">
+					<a href="payment.html">Proceed To Checkout
+						<span class="fa fa-hand-o-right" aria-hidden="true"></span>
+					</a>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<!-- //checkout page -->
+{%endblock%}
