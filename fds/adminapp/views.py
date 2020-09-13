@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .  models import Admin_tb
-from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification
+from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification,Discount
 from django.core.mail import send_mail
 
 
@@ -47,6 +47,8 @@ def a_verifyRestaurant(request, id):
     restaurant = Restaurant.objects.get(id=id)
     restaurant.status = "verified"
     restaurant.save()
+    discount =Discount(discount_value=0,discount_description="Default",discount_limit=0,restaurant_id=restaurant)
+    discount.save()
     return redirect('a_restaurantRequest')
 
 
@@ -61,8 +63,7 @@ def a_rejectRestaurant(request, id):
     restaurant = Restaurant.objects.get(id=id)
     restaurant.status = "rejected"
     email = restaurant.email
-    send_mail('Rejection of account verifiaction request', 'Sorry, the documents you uploaded is not eligible for the approval.',
-              'heydoctorinfo@gmail.com', [email], fail_silently=False,)
+    send_mail('Rejection of account verifiaction request', 'Sorry, the documents you uploaded is not eligible for the approval.','heydoctorinfo@gmail.com', [email], fail_silently=False,)
     restaurant.save()
     verification = Verification.objects.get(res_id=id)
     verification.delete()

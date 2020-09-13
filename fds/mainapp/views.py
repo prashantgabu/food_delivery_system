@@ -155,19 +155,41 @@ def res_updatePassword(request):
         return redirect('res_changePassword')
 
 
-def res_addDiscount(request):
+# def res_addDiscount(request):
+#     if request.method == "POST":
+#         discount_value = request.POST.get('discount')
+#         discountlimit = request.POST.get('discountlimit')
+#         discountdescription = request.POST.get('discountdescription')
+#         res_id = request.session['res_id']
+#         restaurant = Restaurant.objects.get(id=res_id)
+#         discount = Discount(discount_value=discount_value, discount_description=discountdescription,
+#                             discount_limit=discountlimit, restaurant_id=restaurant)
+#         discount.save()
+#         return redirect('res_viewDiscount')
+#     else:
+#         return render(request, 'backend/res_addDiscount.html')
+
+def res_editDiscount(request, id):
+    discount = Discount.objects.get(id=id)
+    return render(request, 'backend/res_editDiscount.html', {'discount': discount})
+
+
+def res_updateDiscount(request, id):
     if request.method == "POST":
+        
         discount_value = request.POST.get('discount')
         discountlimit = request.POST.get('discountlimit')
         discountdescription = request.POST.get('discountdescription')
         res_id = request.session['res_id']
         restaurant = Restaurant.objects.get(id=res_id)
-        discount = Discount(discount_value=discount_value, discount_description=discountdescription,
-                            discount_limit=discountlimit, restaurant_id=restaurant)
+        discount=Discount.objects.get(id=id)
+        discount.discount_value = discount_value
+        discount.discount_limit = discountlimit
+        discount.discount_description = discountdescription
+        discount.restaurant_id =res_id
         discount.save()
+
         return redirect('res_viewDiscount')
-    else:
-        return render(request, 'backend/res_addDiscount.html')
 
 
 def res_viewDiscount(request):
@@ -175,10 +197,10 @@ def res_viewDiscount(request):
     return render(request, 'backend/res_viewDiscount.html', {"discount_list": discount_list})
 
 
-def res_deleteDiscount(request, id):
-    discount = Discount.objects.get(id=id)
-    discount.delete()
-    return redirect('res_viewDiscount')
+# def res_deleteDiscount(request, id):
+#     discount = Discount.objects.get(id=id)
+#     discount.delete()
+#     return redirect('res_viewDiscount')
 
 
 def res_addAmbience(request):
@@ -211,7 +233,7 @@ def res_verification(request):
         gst = request.POST.get('gst')
         res_id = request.session['res_id']
         restaurant = Restaurant.objects.get(id=res_id)
-        restaurant.status="pending"
+        restaurant.status = "pending"
         restaurant.save()
         verification = Verification(shop_fssai_license=shop_fssai_license,
                                     pan_card=pancard, gst_number=gst, res_id=restaurant)

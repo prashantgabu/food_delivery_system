@@ -138,6 +138,7 @@ def buyer_viewCart(request):
     cart_list = Cart.objects.filter(reg_user_id=buyer_id)
     return render(request, "buyer/buyer_viewCart.html", {'buyer_id': buyer_id, "discount_list": discount_list, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list, 'cart_list': cart_list})
 
+
 def buyer_payment(request):
     if "buyer_id" in request.session:
         buyer_id = request.session['buyer_id']
@@ -188,17 +189,42 @@ def buyer_feedback(request):
 
 
 def buyer_addCodOrder(request):
-    if request.method == "POST":
-        if "buyer_id" in request.session:
-            buyer_id = request.session['buyer_id']
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    buyer = Reg_user.objects.get(id=buyer_id)
+    cart_by_buyer_id = Cart.objects.filter(reg_user_id=buyer_id)
+    total_amount = 0
+    restaurant_id = 0
+    discounted_price = 0
+    i = 0
+    for cart in cart_by_buyer_id:
+        dish_price = cart.dish_id.price
+        dish_id = cart.dish_id.id
+        dish = Dish.objects.get(id=dish_id)
+        i = i+1
+        if(i == 1):
+            restaurant_id = cart.dish_id.restaurant_id
+        discount = Discount.objects.get(restaurant_id=restaurant_id)
+        if(discount.discount_value == 0):
+            discounted_price = dish_price
+            order_date_time = datetime.datetime.now()
+            order = Order(payment_type="COD", order_date_time=order_date_time,
+                          status="new", total_amount=discounted_price, reg_user_id=buyer,dish_id=dish)
+            order.save()
+
         else:
-            buyer_id = False
-        order_date_time = datetime.datetime.now()
-        order=Order(payment_type="COD",order_date_time=order_date_time,state="new")
-        order.save()
-        
-        return redirect('buyer_thankyou')
+            discounted_price = (dish_price*discount.discount_value)/100
+            order_date_time = datetime.datetime.now()
+            order = Order(payment_type="COD", order_date_time=order_date_time,
+                          status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
+            order.save()
+        cart=Cart.objects.get(id=cart.id)
+        cart.delete()
+
+    return redirect('buyer_dashboard')
 
 
 def buyer_thankyou(request):
-    return render(request,"buyer_thankyou.html")
+    return render(request, "buyer_thankyou.html")

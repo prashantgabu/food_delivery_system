@@ -31,9 +31,9 @@
                 <td>{{discount_index.discount_limit}}</td>
                 <td>{{discount_index.discount_description}}</td>
                 <td>
+                  <a href="{%url 'res_editDiscount' discount_index.id%}" title="" class="btn-st rd-clr"><i
+                      class="fa fa-trash"></i>Edit</a>
 
-                  <a href="{%url 'res_deleteDiscount' discount_index.id%}" title="" class="btn-st rd-clr"><i
-                      class="fa fa-trash"></i>Delete</a>
                 </td>
               </tr>
               {%endfor%}

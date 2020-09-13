@@ -83,9 +83,9 @@ class Dish(models.Model):
 
 
 class Discount(models.Model):
-    discount_value = models.IntegerField()
-    discount_description = models.TextField()
-    discount_limit = models.IntegerField()
+    discount_value = models.IntegerField(default=0)
+    discount_description = models.TextField(default="Nothing")
+    discount_limit = models.IntegerField(default=0)
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     class Meta:

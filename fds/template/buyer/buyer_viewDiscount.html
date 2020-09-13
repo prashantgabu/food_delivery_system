@@ -13,6 +13,8 @@
 		</h3>
 		<!-- //tittle heading -->
 		{%for discount_index in discount_list %}
+		{%if discount_index.discount_value == 0 %}
+		{%else%}
 		<div class="agileinfo-ads-display col-md-4 w3l-rightpro">
 			<div class="wrapper">
 				<!-- first section -->
@@ -68,6 +70,7 @@
 
 			</div>
 		</div>
+		{%endif%}
 		{% endfor %}
 		<!-- //product right -->
 
