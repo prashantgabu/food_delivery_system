@@ -12,5 +12,8 @@ urlpatterns = [
     path('buyer_addToCart', views.buyer_addToCart, name='buyer_addToCart'),
     path('buyer_viewCart', views.buyer_viewCart, name='buyer_viewCart'),
     path('buyer_removeDish/<int:id>', views.buyer_removeDish, name='buyer_removeDish'),
+    path('buyer_feedback', views.buyer_feedback, name='buyer_feedback'),
+    path('buyer_payment', views.buyer_payment, name='buyer_payment'),
+    path('buyer_addCodOrder', views.buyer_addCodOrder, name='buyer_addCodOrder'),
 
 ]

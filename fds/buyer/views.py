@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from .models import Feedback
 from mainapp.models import Reg_user, Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification, Discount, Cart
 from django.core.mail import send_mail
+import datetime
 
 
 def buyer_login(request):
@@ -114,15 +116,16 @@ def buyer_addToCart(request):
         price = dish_by_id.price
         print("PRICE AND QTY", price, quantity)
         total_amount = (float(price)*float(quantity))
-        print("Total Amount",total_amount)
+        print("Total Amount", total_amount)
         restaurant_id = dish_by_id.restaurant_id.id
         discount = Discount.objects.get(restaurant_id=restaurant_id)
         discount_id = discount.id
-        buyer=Reg_user.objects.get(id=buyer_id)
+        buyer = Reg_user.objects.get(id=buyer_id)
         cart = Cart(total_amount=total_amount, status="added", quantity=quantity,
                     discount_id=discount, dish_id=dish_by_id, reg_user_id=buyer)
         cart.save()
         return redirect('buyer_viewCart')
+
 
 def buyer_viewCart(request):
     if "buyer_id" in request.session:
@@ -132,8 +135,20 @@ def buyer_viewCart(request):
     discount_list = Discount.objects.all()
     cuisine_list = Cuisine.objects.all()
     restaurant_list = Restaurant.objects.all()
-    cart_list=Cart.objects.filter(reg_user_id=buyer_id)
-    return render(request, "buyer/buyer_viewCart.html", {'buyer_id': buyer_id, "discount_list": discount_list, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list,'cart_list': cart_list})
+    cart_list = Cart.objects.filter(reg_user_id=buyer_id)
+    return render(request, "buyer/buyer_viewCart.html", {'buyer_id': buyer_id, "discount_list": discount_list, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list, 'cart_list': cart_list})
+
+def buyer_payment(request):
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    discount_list = Discount.objects.all()
+    cuisine_list = Cuisine.objects.all()
+    restaurant_list = Restaurant.objects.all()
+    cart_list = Cart.objects.filter(reg_user_id=buyer_id)
+    return render(request, "buyer/buyer_payment.html", {'buyer_id': buyer_id, "discount_list": discount_list, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list, 'cart_list': cart_list})
+
 
 def buyer_removeDish(request, id):
     cart = Cart.objects.get(id=id)
@@ -144,3 +159,46 @@ def buyer_removeDish(request, id):
 def buyer_logout(request):
     request.session.delete()
     return redirect('buyer_dashboard')
+
+
+def buyer_feedback(request):
+    if request.method == "POST":
+        if "buyer_id" in request.session:
+            buyer_id = request.session['buyer_id']
+        else:
+            buyer_id = False
+        buyer = Reg_user.objects.get(id=buyer_id)
+        name = buyer.fname + " " + buyer.lname
+        email = buyer.email
+        feedback_message = request.POST.get('feedback_message')
+        feedback_date_time = datetime.datetime.now()
+
+        feedback = Feedback(name=name, email=email, feedback_date_time=feedback_date_time,
+                            feedback_message=feedback_message)
+        feedback.save()
+        return redirect('buyer_dashboard')
+    else:
+        if "buyer_id" in request.session:
+            buyer_id = request.session['buyer_id']
+        else:
+            buyer_id = False
+        buyer_list = Reg_user.objects.get(id=buyer_id)
+
+        return render(request, "buyer/buyer_feedback.html", {"buyer_list": buyer_list})
+
+
+def buyer_addCodOrder(request):
+    if request.method == "POST":
+        if "buyer_id" in request.session:
+            buyer_id = request.session['buyer_id']
+        else:
+            buyer_id = False
+        order_date_time = datetime.datetime.now()
+        order=Order(payment_type="COD",order_date_time=order_date_time,state="new")
+        order.save()
+        
+        return redirect('buyer_thankyou')
+
+
+def buyer_thankyou(request):
+    return render(request,"buyer_thankyou.html")

@@ -607,35 +607,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="ban-top">
         <div class="container">
             <!-- <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1"> -->
-                <ul class="nav navbar-nav menu__list">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle nav-stylehead" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false">All Cuisines
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu multi-column columns-3">
-                            <div class="agile_inner_drop_nav_info">
-                                <div class="col-sm-4 multi-gd-img">
-                                    <ul class="multi-column-dropdown">
-                                        {%for cuisine_index in cuisine_list%}
-                                        <li>
-                                            <a href="{% url 'buyer_viewDishByCuisine' cuisine_index.id%}"
-                                                title="">{{cuisine_index.cuisine_name}}</a>
-                                        </li>
-                                        {%endfor%}
+            <ul class="nav navbar-nav menu__list">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav-stylehead" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">All Cuisines
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu multi-column columns-3">
+                        <div class="agile_inner_drop_nav_info">
+                            <div class="col-sm-4 multi-gd-img">
+                                <ul class="multi-column-dropdown">
+                                    {%for cuisine_index in cuisine_list%}
+                                    <li>
+                                        <a href="{% url 'buyer_viewDishByCuisine' cuisine_index.id%}"
+                                            title="">{{cuisine_index.cuisine_name}}</a>
+                                    </li>
+                                    {%endfor%}
 
 
-                                    </ul>
-                                </div>
-                               
-                                <div class="col-sm-4 multi-gd-img">
-                                    <img src="images/nav.png" alt="">
-                                </div>
-                                <div class="clearfix"></div>
+                                </ul>
                             </div>
-                        </ul>
-                    </li>
-                </ul>
+
+                            <div class="col-sm-4 multi-gd-img">
+                                <img src="images/nav.png" alt="">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
             <!-- </div> -->
             <div class="top_nav_left">
                 <nav class="navbar navbar-default">
@@ -672,7 +672,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <ul class="multi-column-dropdown">
                                                     {%for restaurant_index in restaurant_list %}
                                                     <li>
-                                                        <a href="{%url 'buyer_viewDishByRestaurant' restaurant_index.id%}">{{restaurant_index.name}}</a>
+                                                        <a
+                                                            href="{%url 'buyer_viewDishByRestaurant' restaurant_index.id%}">{{restaurant_index.name}}</a>
                                                     </li>
                                                     {%endfor%}
                                                 </ul>
@@ -788,7 +789,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </ul>
                                 </li>
                                 <li class="">
-                                    <a class="nav-stylehead" href="contact.html">Feedback</a>
+                                    <a class="nav-stylehead" href="{%url 'buyer_feedback'%}">Feedback</a>
                                 </li>
                             </ul>
                         </div>
@@ -1222,7 +1223,52 @@ $('#').modal('show');
         });
     </script>
     <!-- //flexisel (for special offers) -->
+    <link rel="stylesheet" type="text/css" href="{% static 'frontend/css/easy-responsive-tabs.css'%} " />
+    <script src="{% static 'frontend/js/easyResponsiveTabs.js'%}"></script>
 
+    <script>
+        $(document).ready(function () {
+            //Horizontal Tab
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+                activate: function (event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#nested-tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                }
+            });
+        });
+    </script>
+    <!-- //easy-responsive-tabs -->
+
+    <!-- credit-card -->
+    <script src="{% static 'frontend/js/creditly.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'frontend/css/creditly.css'%}" type="text/css" media="all" />
+
+    <script>
+        $(function () {
+            var creditly = Creditly.initialize(
+                '.creditly-wrapper .expiration-month-and-year',
+                '.creditly-wrapper .credit-card-number',
+                '.creditly-wrapper .security-code',
+                '.creditly-wrapper .card-type');
+
+            $(".creditly-card-form .submit").click(function (e) {
+                e.preventDefault();
+                var output = creditly.validate();
+                if (output) {
+                    // Your validated credit card output
+                    console.log(output);
+                }
+            });
+        });
+    </script>
+    <!-- //credit-card -->
     <!-- password-script -->
     <script>
         window.onload = function () {
