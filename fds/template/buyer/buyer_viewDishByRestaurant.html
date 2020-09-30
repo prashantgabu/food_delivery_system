@@ -3,23 +3,25 @@
 <!-- top Products -->
 <div class="ads-grid">
 	<div class="container">
+		{% for message in messages %}
+		{% if "addtocart" in message.tags %}
+
+		<div class="alert alert-danger" role="alert"> {{message}} </div>
+		{% endif %}
+
+		{% endfor %}
 		<!-- tittle heading -->
-		<h3 class="tittle-w3l">{{restaurant_name}} Dishes
-			<span class="heading-style">
-				<i></i>
-				<i></i>
-				<i></i>
-			</span>
+		<h3 class="tittle-w3l">{{restaurant_name}}'s Dishes
 		</h3>
 		<!-- //tittle heading -->
 		{%for dish_index in dishlist_by_restautrant_id %}
-		<form action="{% url 'buyer_addToCart'%}" method="post"> 
+		<form action="{% url 'buyer_addToCart'%}" method="post">
 			{%csrf_token%}
 			<div class="agileinfo-ads-display col-md-4 w3l-rightpro">
 				<div class="wrapper">
 					<!-- first section -->
 					<input type="hidden" name="dish_id" value="{{dish_index.id}}">
-					
+
 					<div class="product-sec1">
 						<div class="col-xs-12 product-men">
 
@@ -37,7 +39,8 @@
 										<span class="item_price">${{dish_index.price}}</span>
 									</div>
 									<div class="input-group w3_w3layouts">
-										<input type="number" class="form-control" placeholder="" name="quantity" aria-describedby="basic-addon2">
+										<input type="number" class="form-control" placeholder="" name="quantity"
+											aria-describedby="basic-addon2">
 										<span class="input-group-addon" id="basic-addon2">Quanity</span>
 									</div>
 									<button type="submit" class="btn btn-primary btn-lg btn-block">Add to cart</button>

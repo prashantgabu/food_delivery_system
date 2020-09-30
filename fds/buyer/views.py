@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Feedback
-from mainapp.models import Reg_user, Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification, Discount, Cart
+from mainapp.models import Reg_user, Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification, Discount, Cart, Assigned_agent
 from django.core.mail import send_mail
 import datetime
+from django.http import HttpResponse
+from . Paytm import checksum
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 
 def buyer_login(request):
@@ -17,7 +21,8 @@ def buyer_login(request):
             if (check_auth):
                 return redirect('buyer_dashboard')
             else:
-                messages.error(request, 'Password incorrect.')
+                messages.error(request, 'Password incorrect.',
+                               extra_tags="loginerror")
                 return redirect('buyer_dashboard')
         else:
             return render(request, 'buyer/buyer_dashboard.html')
@@ -113,18 +118,33 @@ def buyer_addToCart(request):
         dish_id = request.POST.get('dish_id')
         quantity = request.POST.get('quantity')
         dish_by_id = Dish.objects.get(id=dish_id)
-        price = dish_by_id.price
-        print("PRICE AND QTY", price, quantity)
-        total_amount = (float(price)*float(quantity))
-        print("Total Amount", total_amount)
-        restaurant_id = dish_by_id.restaurant_id.id
-        discount = Discount.objects.get(restaurant_id=restaurant_id)
-        discount_id = discount.id
-        buyer = Reg_user.objects.get(id=buyer_id)
-        cart = Cart(total_amount=total_amount, status="added", quantity=quantity,
-                    discount_id=discount, dish_id=dish_by_id, reg_user_id=buyer)
-        cart.save()
-        return redirect('buyer_viewCart')
+        restaurant_id_by_dish_id = dish_by_id.restaurant_id.id
+
+        cart_list = Cart.objects.filter(reg_user_id=buyer_id)
+
+        print("::::::::::::::::::::cart list :", cart_list)
+        restaurant_id_by_cart_id = 0
+        for i in cart_list:
+            restaurant_id_by_cart_id = i.dish_id.restaurant_id.id
+
+        print("restaurant_id_by_cart_id:::::::", restaurant_id_by_cart_id)
+        if (restaurant_id_by_dish_id is restaurant_id_by_cart_id) or (restaurant_id_by_cart_id == 0):
+            price = dish_by_id.price
+            total_amount = (float(price)*float(quantity))
+
+            discount = Discount.objects.get(
+                restaurant_id=restaurant_id_by_dish_id)
+            discount_id = discount.id
+            buyer = Reg_user.objects.get(id=buyer_id)
+
+            cart = Cart(total_amount=total_amount, status="added", quantity=quantity,
+                        discount_id=discount, dish_id=dish_by_id, reg_user_id=buyer)
+            cart.save()
+            return redirect('buyer_viewCart')
+        else:
+            messages.add_message(
+                request, messages.INFO, 'Sorry! You cannot add to cart from multiple restaurants.', extra_tags='addtocart')
+            return redirect('buyer_viewDishByRestaurant', id=restaurant_id_by_dish_id)
 
 
 def buyer_viewCart(request):
@@ -188,7 +208,7 @@ def buyer_feedback(request):
         return render(request, "buyer/buyer_feedback.html", {"buyer_list": buyer_list})
 
 
-def buyer_addCodOrder(request):
+def buyer_addOnlineOrder(request):
     if "buyer_id" in request.session:
         buyer_id = request.session['buyer_id']
     else:
@@ -198,9 +218,10 @@ def buyer_addCodOrder(request):
     total_amount = 0
     restaurant_id = 0
     discounted_price = 0
+    final_price = 0
     i = 0
     for cart in cart_by_buyer_id:
-        dish_price = cart.dish_id.price
+        dish_price = cart.total_amount
         dish_id = cart.dish_id.id
         dish = Dish.objects.get(id=dish_id)
         i = i+1
@@ -209,22 +230,112 @@ def buyer_addCodOrder(request):
         discount = Discount.objects.get(restaurant_id=restaurant_id)
         if(discount.discount_value == 0):
             discounted_price = dish_price
+            final_price = final_price + discounted_price
             order_date_time = datetime.datetime.now()
-            order = Order(payment_type="COD", order_date_time=order_date_time,
-                          status="new", total_amount=discounted_price, reg_user_id=buyer,dish_id=dish)
+            order = Order(payment_type="Online", order_date_time=order_date_time,
+                          status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
             order.save()
 
         else:
             discounted_price = (dish_price*discount.discount_value)/100
+            final_price = final_price + discounted_price
             order_date_time = datetime.datetime.now()
-            order = Order(payment_type="COD", order_date_time=order_date_time,
+            order = Order(payment_type="Online", order_date_time=order_date_time,
                           status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
             order.save()
-        cart=Cart.objects.get(id=cart.id)
+        cart = Cart.objects.get(id=cart.id)
         cart.delete()
+        MERCHANT_KEY = '@mlnvyM0TkiXkv9K'
+        param_dict = {
+            'MID': 'ONphQY43540204822882',
+            'ORDER_ID': str(order.id),
+            'TXN_AMOUNT': str(final_price),
+            'CUST_ID': buyer.email,
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'Webstaging',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest',
+        }
+        param_dict['CHECKSUMHASH'] = checksum.generate_checksum(
+            param_dict, MERCHANT_KEY)
+        return render(request, "buyer/paytm.html", {"param_dict": param_dict})
 
-    return redirect('buyer_dashboard')
+    return render(request, "buyer/paytm.html", {"param_dict": param_dict})
 
 
 def buyer_thankyou(request):
-    return render(request, "buyer_thankyou.html")
+    return render(request, "buyer/buyer_thankyou.html")
+
+
+@csrf_exempt
+def handlerequest(request):
+    MERCHANT_KEY = '@mlnvyM0TkiXkv8K'
+
+    # paytm will send you post request here
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            Checksum = form[i]
+
+    verify = checksum.verify_checksum(response_dict, MERCHANT_KEY, Checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successful')
+        else:
+            print('order was not successful because' +
+                  response_dict['RESPMSG'])
+    # return render(request, 'buyer/buyer_thankyou.html', {'response': response_dict})
+    return redirect('buyer_thankyou')
+
+
+def buyer_addOfflineOrder(request):
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    buyer = Reg_user.objects.get(id=buyer_id)
+    cart_by_buyer_id = Cart.objects.filter(reg_user_id=buyer_id)
+    total_amount = 0
+    restaurant_id = 0
+    discounted_price = 0
+    final_price = 0
+    i = 0
+    for cart in cart_by_buyer_id:
+        dish_price = cart.total_amount
+        dish_id = cart.dish_id.id
+        dish = Dish.objects.get(id=dish_id)
+        i = i+1
+        if(i == 1):
+            restaurant_id = cart.dish_id.restaurant_id
+        discount = Discount.objects.get(restaurant_id=restaurant_id)
+        if(discount.discount_value == 0):
+            discounted_price = dish_price
+            final_price = final_price + discounted_price
+            order_date_time = datetime.datetime.now()
+            order = Order(payment_type="Offline", order_date_time=order_date_time,
+                          status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
+            order.save()
+
+        else:
+            discounted_price = (dish_price*discount.discount_value)/100
+            final_price = final_price + discounted_price
+            order_date_time = datetime.datetime.now()
+            order = Order(payment_type="Offline", order_date_time=order_date_time,
+                          status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
+            order.save()
+        cart = Cart.objects.get(id=cart.id)
+        cart.delete()
+    return redirect('buyer_thankyou')
+
+
+def buyer_trackOrder(request):
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    assigned_agent = Assigned_agent.objects.filter(reg_user_id=buyer_id)
+    order_list = Order.objects.filter(
+        ~Q(status='complete'), reg_user_id=buyer_id)
+    return render(request, 'buyer/buyer_trackOrder.html', {"order_list": order_list, "assigned_agent": assigned_agent})

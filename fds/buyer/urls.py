@@ -14,6 +14,10 @@ urlpatterns = [
     path('buyer_removeDish/<int:id>', views.buyer_removeDish, name='buyer_removeDish'),
     path('buyer_feedback', views.buyer_feedback, name='buyer_feedback'),
     path('buyer_payment', views.buyer_payment, name='buyer_payment'),
-    path('buyer_addCodOrder', views.buyer_addCodOrder, name='buyer_addCodOrder'),
+    path('buyer_addOnlineOrder', views.buyer_addOnlineOrder, name='buyer_addOnlineOrder'),
+    path('buyer_addOfflineOrder', views.buyer_addOfflineOrder, name='buyer_addOfflineOrder'),
+    path('buyer_thankyou', views.buyer_thankyou, name='buyer_thankyou'),
+    path('handlerequest', views.handlerequest, name='handlerequest'),
+    path('buyer_trackOrder', views.buyer_trackOrder, name='buyer_trackOrder'),
 
 ]

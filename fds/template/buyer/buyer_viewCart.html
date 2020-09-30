@@ -5,16 +5,30 @@
 		<!-- tittle heading -->
 		<h3 class="tittle-w3l">Checkout
 			<span class="heading-style">
+		
 				<i></i>
 				<i></i>
 				<i></i>
 			</span>
 		</h3>
 		<!-- //tittle heading -->
-		<div class="checkout-right">
+		<div class="checkout-right" style="text-align: center;">
 			<h4>Your shopping cart contains:
 				<span>{{cart_list|length}} Product(s)</span>
 			</h4>
+			{% if cart_list|length == 0 %}
+			<h4>Oops! There are no dishes in your cart....</h4>
+			<div class="checkout-left">
+				<div class="address_form_agile">
+					<div class="checkout-right-basket">
+						<a href="{%url 'buyer_viewDish'%}">View Dishes
+							<span class="fa fa-hand-o-right" aria-hidden="true"></span>
+						</a>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			{%else%}
 			<div class="table-responsive">
 				<table class="timetable_sub">
 					<thead>
@@ -33,9 +47,9 @@
 						<tr class="rem1">
 							<td class="invert">1</td>
 							<td class="invert-image">
-								<a href="single2.html">
-									<img style="width: 100px;height: 100px;" src="{{cart_index.dish_id.dish_photo.url}}"
-										alt=" " class="img-responsive">
+								<a href="#">
+									<img style="width: 100px;height: 100px;" src="{{cart_index.dish_id.dish_photo.url}}
+									" alt=" " class="img-responsive">
 								</a>
 							</td>
 							<td class="invert">
@@ -63,18 +77,20 @@
 						{%endfor%}
 					</tbody>
 				</table>
-			</div>
-		</div>
-		<div class="checkout-left">
-			<div class="address_form_agile">
-				<div class="checkout-right-basket">
-					<a href="{%url 'buyer_payment'%}">Proceed To Checkout
-						<span class="fa fa-hand-o-right" aria-hidden="true"></span>
-					</a>
+				<div class="checkout-left">
+					<div class="address_form_agile">
+						<div class="checkout-right-basket">
+							<a href="{%url 'buyer_payment'%}">Proceed To Checkout
+								<span class="fa fa-hand-o-right" aria-hidden="true"></span>
+							</a>
+						</div>
+					</div>
+					<div class="clearfix"> </div>
 				</div>
 			</div>
-			<div class="clearfix"> </div>
+			{%endif%}
 		</div>
+
 	</div>
 </div>
 <!-- //checkout page -->

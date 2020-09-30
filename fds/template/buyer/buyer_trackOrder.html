@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+{%load static%}
+
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>Snippet - BBBootstrap</title>
+	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+	<link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
+	<link href="{% static 'frontend/css/trackorder.css'%}" rel="stylesheet" type="text/css" media="all" />
+
+
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+	<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+	<script type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+	<script type='text/javascript'></script>
+</head>
+
+<body oncontextmenu='return false' class='snippet-body'>
+	<div class="container">
+		<article class="card">
+			<header class="card-header"> Track Order </header>
+
+			<div class="card-body">
+				<h6>Order ID:
+					{%for order_index in order_list%}
+					{{order_index.id}}
+					{%endfor%}
+				</h6>
+				<article class="card">
+					<div class="card-body row">
+						<div class="col"> <strong>Estimated Delivery time:</strong> <br>30 Mins from the order placed
+						</div>
+
+						{% for order_index in order_list|slice:":1"%}
+						{%if order_index.status == "new"%}
+						<div class="col">
+							<strong>Agent Details:</strong> <br>Your agent will be assigned soon. 
+						</div>
+						{%else%}
+						{%for assigned_agent in assigned_agent|slice:":1"%}
+						<div class="col">
+							<strong>Agent Details:</strong> <br> {{assigned_agent.agent_id.fname}}
+							{{assigned_agent.agent_id.lname}} <br><i class="fa fa-phone"></i>
+							{{assigned_agent.agent_id.mobile_no}}
+						</div>
+						{%endfor%}
+						{%endif%}
+						{%endfor%}
+
+						{% for order_index in order_list|slice:":1"%}
+						{%if order_index.status == "new"%}
+						<div class="col"> <strong>Status:</strong> <br>Order confirmed</div>
+						{%elif order_index.status == "assigned"%}
+						<div class="col"> <strong>Status:</strong> <br>Agent assigned</div>
+						{%elif order_index.status == "agentarrived"%}
+						<div class="col"> <strong>Status:</strong> <br>Agent is at restaurant</div>
+						{%elif order_index.status == "enroute"%}
+						<div class="col"> <strong>Status:</strong> <br>Agent is on the way</div>
+						{%elif order_index.status == "delivered"%}
+						<div class="col"> <strong>Status:</strong> <br>Order delivered</div>
+						{%endif%}
+						{%endfor%}
+					</div>
+				</article>
+				{%for order_index in order_list|slice:":1" %}
+				{%if order_index.status == "new"%}
+				<div class="track">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+							class="text">Order confirmed</span> </div>
+					<div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+							Agent Assigned</span> </div>
+					<div class="step "> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">
+							Agent is at Restaurant </span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Enroute
+							to Destination</span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Order
+							Delivered</span> </div>
+				</div>
+				{%elif order_index.status == "assigned"%}
+				<div class="track">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+							class="text">Order confirmed</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+							Agent Assigned</span> </div>
+					<div class="step "> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">
+							Agent is at Restaurant </span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Enroute
+							to Destination</span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Order
+							Delivered</span> </div>
+				</div>
+				{%elif order_index.status == "agentarrived"%}
+				<div class="track">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+							class="text">Order confirmed</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+							Agent Assigned</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span
+							class="text"> Agent is at Restaurant </span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Enroute
+							to Destination</span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Order
+							Delivered</span> </div>
+
+				</div>
+				{%elif order_index.status == "enroute"%}
+
+
+
+				<div class="track">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+							class="text">Order confirmed</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+							Agent Assigned</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span
+							class="text"> Agent is at Restaurant </span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span
+							class="text">Enroute to Destination</span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Order
+							Delivered</span> </div>
+				</div>
+				{% elif order_index.status == "delivered" %}
+
+				<div class="track">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+							class="text">Order confirmed</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+							Agent Assigned</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span
+							class="text"> Agent is at Restaurant </span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span
+							class="text">Enroute
+							to Destination</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span
+							class="text">Order
+							Delivered</span> </div>
+				</div>
+				{% endif %}
+				{%endfor%}
+				<hr>
+				<ul class="row">
+
+					{%for order_index in order_list%}
+					<li class="col-md-4">
+						<figure class="itemside mb-3">
+							<div class="aside"><img src="{{order_index.dish_id.dish_photo.url}}" class="img-sm border">
+							</div>
+							<figcaption class="info align-self-center">
+								<p class="title">{{order_index.dish_id.dish_name}}</p> <span
+									class="text-muted">${{order_index.total_amount}}</span>
+							</figcaption>
+						</figure>
+					</li>
+					{%endfor%}
+				</ul>
+				<hr>
+				<a href="/" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to
+					Home</a>
+			</div>
+		</article>
+	</div>
+</body>
+
+</html>

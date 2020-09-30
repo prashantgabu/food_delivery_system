@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Reg_user(models.Model):
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
@@ -110,7 +111,8 @@ class Order(models.Model):
     order_date_time = models.DateTimeField()
     status = models.CharField(max_length=100)
     reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
-    dish_id = models.ForeignKey(Dish, on_delete=models.CASCADE,blank=True,null=True)
+    dish_id = models.ForeignKey(
+        Dish, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = "order"
@@ -119,6 +121,7 @@ class Order(models.Model):
 class Assigned_agent(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     agent_id = models.ForeignKey(Delivery_agent, on_delete=models.CASCADE)
+    reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "assigned_agent"
