@@ -23,5 +23,7 @@ urlpatterns = [
     path('res_viewAmbience', views.res_viewAmbience, name='res_viewAmbience'),
     path('res_deleteAmbience/<int:id>', views.res_deleteAmbience, name='res_deleteAmbience'),
     path('res_viewNewOrder', views.res_viewNewOrder, name='res_viewNewOrder'),
+    path('res_viewAssignedAgent', views.res_viewAssignedAgent, name='res_viewAssignedAgent'),
+    path('res_viewDeliveredOrder', views.res_viewDeliveredOrder, name='res_viewDeliveredOrder'),
 
 ]

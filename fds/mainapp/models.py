@@ -110,6 +110,7 @@ class Order(models.Model):
     payment_type = models.CharField(max_length=100)
     order_date_time = models.DateTimeField()
     status = models.CharField(max_length=100)
+    quantity = models.IntegerField()
     reg_user_id = models.ForeignKey(Reg_user, on_delete=models.CASCADE)
     dish_id = models.ForeignKey(
         Dish, on_delete=models.CASCADE, blank=True, null=True)

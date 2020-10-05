@@ -222,6 +222,7 @@ def buyer_addOnlineOrder(request):
     i = 0
     for cart in cart_by_buyer_id:
         dish_price = cart.total_amount
+        quantity = cart.quantity
         dish_id = cart.dish_id.id
         dish = Dish.objects.get(id=dish_id)
         i = i+1
@@ -232,7 +233,7 @@ def buyer_addOnlineOrder(request):
             discounted_price = dish_price
             final_price = final_price + discounted_price
             order_date_time = datetime.datetime.now()
-            order = Order(payment_type="Online", order_date_time=order_date_time,
+            order = Order(quantity=quantity, payment_type="Online", order_date_time=order_date_time,
                           status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
             order.save()
 
@@ -270,7 +271,7 @@ def buyer_thankyou(request):
         buyer_id = False
     cuisine_list = Cuisine.objects.all()
     restaurant_list = Restaurant.objects.all()
-    return render(request, "buyer/buyer_thankyou.html",{"buyer_id": buyer_id, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list})
+    return render(request, "buyer/buyer_thankyou.html", {"buyer_id": buyer_id, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list})
 
 
 @csrf_exempt
@@ -310,6 +311,7 @@ def buyer_addOfflineOrder(request):
     i = 0
     for cart in cart_by_buyer_id:
         dish_price = cart.total_amount
+        quantity = cart.quantity
         dish_id = cart.dish_id.id
         dish = Dish.objects.get(id=dish_id)
         i = i+1
@@ -320,7 +322,7 @@ def buyer_addOfflineOrder(request):
             discounted_price = dish_price
             final_price = final_price + discounted_price
             order_date_time = datetime.datetime.now()
-            order = Order(payment_type="Offline", order_date_time=order_date_time,
+            order = Order(quantity=quantity, payment_type="Offline", order_date_time=order_date_time,
                           status="new", total_amount=discounted_price, reg_user_id=buyer, dish_id=dish)
             order.save()
 
@@ -345,9 +347,8 @@ def buyer_trackOrder(request):
     order_list = Order.objects.filter(
         ~Q(status='delivered'), reg_user_id=buyer_id)
 
-
-
     return render(request, 'buyer/buyer_trackOrder.html', {"order_list": order_list, "assigned_agent": assigned_agent})
+
 
 def buyer_orderHistory(request):
     if "buyer_id" in request.session:
@@ -357,8 +358,8 @@ def buyer_orderHistory(request):
     assigned_agent = Assigned_agent.objects.filter(reg_user_id=buyer_id)
     order_list = Order.objects.filter(status="delivered", reg_user_id=buyer_id)
 
-    total_amount =0
+    total_amount = 0
     for item in order_list:
         total_amount += item.total_amount
-    print(":::::::::::::::::",total_amount)
-    return render(request, 'buyer/buyer_orderHistory.html', {"order_list": order_list, "assigned_agent": assigned_agent,'total_amount':total_amount})
+    print(":::::::::::::::::", total_amount)
+    return render(request, 'buyer/buyer_orderHistory.html', {"order_list": order_list, "assigned_agent": assigned_agent, 'total_amount': total_amount})

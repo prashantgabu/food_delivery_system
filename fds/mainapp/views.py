@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from . models import Restaurant, Dish, Cuisine, Discount, Ambience, Verification, Order
+from . models import Restaurant, Dish, Cuisine, Discount, Ambience, Verification, Order, Assigned_agent
 from django.contrib import messages
+from django.db.models import Q
 
 
 def res_login(request):
@@ -41,7 +42,25 @@ def res_register(request):
 
 
 def res_dashboard(request):
-    return render(request, 'backend/res_dashboard.html')
+    res_id = request.session['res_id']
+    total_dish = Dish.objects.filter(restaurant_id=res_id).count()
+
+    ongoing_order_list = Order.objects.filter(~Q(status='delivered'))
+    delivered_order_list = Order.objects.filter(status="delivered")
+    ongoing_list = []
+    delivered_list = []
+
+    for i in ongoing_order_list:
+        if i.dish_id.restaurant_id.id == res_id:
+            ongoing_list.append(i)
+    total_ongoing_orders = len(ongoing_list)
+
+    for i in delivered_order_list:
+        if i.dish_id.restaurant_id.id == res_id:
+            delivered_list.append(i)
+    total_delivered_orders = len(delivered_list)
+
+    return render(request, 'backend/res_dashboard.html', {'total_delivered_orders': total_delivered_orders, 'total_ongoing_orders': total_ongoing_orders, 'total_dish': total_dish})
 
 
 def res_addDish(request):
@@ -253,13 +272,31 @@ def res_verification(request):
 
 def res_viewNewOrder(request):
     res_id = request.session['res_id']
-
     order_list = Order.objects.filter(status="assigned")
     neworder_list = []
-
-    
-
     for i in order_list:
         if i.dish_id.restaurant_id.id == res_id:
             neworder_list.append(i)
     return render(request, 'backend/res_viewNewOrder.html', {"neworder_list": neworder_list})
+
+
+def res_viewAssignedAgent(request):
+    res_id = request.session['res_id']
+    agent_list = Assigned_agent.objects.all()
+
+    newagent_list = []
+    for i in agent_list:
+        if i.order_id.dish_id.restaurant_id.id == res_id:
+            newagent_list.append(i)
+    return render(request, 'backend/res_viewAssignedAgent.html', {"agent_list": newagent_list})
+
+
+def res_viewDeliveredOrder(request):
+    res_id = request.session['res_id']
+    order_list = Order.objects.filter(status="delivered")
+
+    deliveredorder_list = []
+    for i in order_list:
+        if i.dish_id.restaurant_id.id == res_id:
+            deliveredorder_list.append(i)
+    return render(request, 'backend/res_viewDeliveredOrder.html', {"deliveredorder_list": deliveredorder_list})

@@ -13,30 +13,30 @@
             </ul>
         </div>
         <div class="row">
-            {% for neworder_index in neworder_list%}
+            {% for deliveredorder_index in deliveredorder_list%}
             <div class="col-md-4">
                 <div class="row merged">
                     <div class="col-lg-12">
                         <div class="events">
                             <div class="event-head">
-                                <h5>{{neworder_index.id}}</h5>
+                                <h5>{{deliveredorder_index.id}}</h5>
                             </div>
                             <ul class="event-detail">
                                 <li> <span>Order Details:-<br></span>
-                                    <img src="{{neworder_index.dish_id.dish_photo.url}}" alt="Image Not Found" style="width: 50px;height: 50px;">
-                                    <h6><span>Dish:- {{neworder_index.dish_id.dish_name}}</span></h6>
-                                    <p>Dish Customization:- {{neworder_index.dish_id.customization}}</p>
-                                    <p>Dish Quanity:-{{neworder_index.quantity}}</p>
-                                    <p>Order Time:- {{neworder_index.order_date_time}}</p>
+                                    <img src="{{deliveredorder_index.dish_id.dish_photo.url}}" alt="Image Not Found" style="width: 50px;height: 50px;">
+                                    <h6><span>Dish:- {{deliveredorder_index.dish_id.dish_name}}</span></h6>
+                                    <p>Dish Customization:- {{deliveredorder_index.dish_id.customization}}</p>
+                                    <p>Dish Quanity:-{{deliveredorder_index.quantity}}</p>
+                                    <p>Order Time:- {{deliveredorder_index.order_date_time}}</p>
                                 </li>
                                 
                                 <li> <span>Delivery Address:-</span>
-                                    <h6><span>{{neworder_index.reg_user_id.address}}</span></h6>
-                                    <p>Buyer's Contact Number:- {{neworder_index.reg_user_id.mobile_no}}</p>
+                                    <h6><span>{{deliveredorder_index.reg_user_id.address}}</span></h6>
+                                    <p>Buyer's Contact Number:- {{deliveredorder_index.reg_user_id.mobile_no}}</p>
                                 </li>
                                 <li> <span>Payment Details</span>
-                                    <h6><span>{{neworder_index.payment_type}}</span></h6>
-                                    <p>Total Amount:- {{neworder_index.total_amount}}</p>
+                                    <h6><span>{{deliveredorder_index.payment_type}}</span></h6>
+                                    <p>Total Amount:- {{deliveredorder_index.total_amount}}</p>
                                 </li>
 
                             </ul>
