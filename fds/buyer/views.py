@@ -245,7 +245,7 @@ def buyer_addOnlineOrder(request):
             order.save()
         cart = Cart.objects.get(id=cart.id)
         cart.delete()
-        MERCHANT_KEY = '@mlnvyM0TkiXkv9K'
+        MERCHANT_KEY = '@mlnvyM0TkiXkv8K'
         param_dict = {
             'MID': 'ONphQY43540204822882',
             'ORDER_ID': str(order.id),
@@ -264,7 +264,13 @@ def buyer_addOnlineOrder(request):
 
 
 def buyer_thankyou(request):
-    return render(request, "buyer/buyer_thankyou.html")
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    cuisine_list = Cuisine.objects.all()
+    restaurant_list = Restaurant.objects.all()
+    return render(request, "buyer/buyer_thankyou.html",{"buyer_id": buyer_id, 'cuisine_list': cuisine_list, 'restaurant_list': restaurant_list})
 
 
 @csrf_exempt
@@ -337,5 +343,22 @@ def buyer_trackOrder(request):
         buyer_id = False
     assigned_agent = Assigned_agent.objects.filter(reg_user_id=buyer_id)
     order_list = Order.objects.filter(
-        ~Q(status='complete'), reg_user_id=buyer_id)
+        ~Q(status='delivered'), reg_user_id=buyer_id)
+
+
+
     return render(request, 'buyer/buyer_trackOrder.html', {"order_list": order_list, "assigned_agent": assigned_agent})
+
+def buyer_orderHistory(request):
+    if "buyer_id" in request.session:
+        buyer_id = request.session['buyer_id']
+    else:
+        buyer_id = False
+    assigned_agent = Assigned_agent.objects.filter(reg_user_id=buyer_id)
+    order_list = Order.objects.filter(status="delivered", reg_user_id=buyer_id)
+
+    total_amount =0
+    for item in order_list:
+        total_amount += item.total_amount
+    print(":::::::::::::::::",total_amount)
+    return render(request, 'buyer/buyer_orderHistory.html', {"order_list": order_list, "assigned_agent": assigned_agent,'total_amount':total_amount})

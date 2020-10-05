@@ -19,5 +19,6 @@ urlpatterns = [
     path('buyer_thankyou', views.buyer_thankyou, name='buyer_thankyou'),
     path('handlerequest', views.handlerequest, name='handlerequest'),
     path('buyer_trackOrder', views.buyer_trackOrder, name='buyer_trackOrder'),
+    path('buyer_orderHistory', views.buyer_orderHistory, name='buyer_orderHistory'),
 
 ]

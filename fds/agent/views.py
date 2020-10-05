@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification
+from mainapp.models import Restaurant, Delivery_agent, Order, Cuisine, Report, Dish, Ambience, Verification, Assigned_agent,Reg_user
 from django.core.mail import send_mail
 from . models import Agent_docs
 
@@ -112,22 +112,38 @@ def agent_verification(request):
 
 def agent_viewNewOrder(request):
     order_list = Order.objects.filter(status="new")
-    print("ORDERLIST-",order_list)
+    print("ORDERLIST-", order_list)
     return render(request, 'agent/agent_viewNewOrder.html', {'order_list': order_list})
 
-def agent_acceptOrder(request,id):
-    order=Order.objects.get(id=id)
-    order.status="accepted"
+
+def agent_acceptOrder(request, id):
+    agent_id = request.session['agent_id']
+    agent=Delivery_agent.objects.get(id=agent_id)
+    
+    order = Order.objects.get(id=id)
+
+
+    buyer_id = order.reg_user_id.id
+    
+    buyer=Reg_user.objects.get(id=buyer_id)
+    
+    order.status = "accepted"
+    
+    
+    assigned_agent = Assigned_agent(
+        agent_id=agent, order_id=order, reg_user_id=buyer)
+    assigned_agent.save()
     order.save()
     return redirect('agent_viewAcceptedOrder')
 
+
 def agent_viewAcceptedOrder(request):
     agent_id = request.session['agent_id']
-    order_list = Order.objects.filter(agent_id=agent_id,status="accepted")
+    order_list = Order.objects.filter(status="accepted")
     return render(request, 'agent/agent_viewAcceptedOrder.html', {'order_list': order_list})
 
 
 def agent_viewOrderHistory(request):
     agent_id = request.session['agent_id']
-    order_list = Order.objects.filter(agent_id=agent_id,status="completed")
+    order_list = Order.objects.filter(agent_id=agent_id, status="completed")
     return render(request, 'agent/agent_viewOrderHistory.html', {'order_list': order_list})

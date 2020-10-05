@@ -19,9 +19,10 @@
 
 <body oncontextmenu='return false' class='snippet-body'>
 	<div class="container">
+		{%for order_index in order_list%}
 		<article class="card">
 			<header class="card-header"> Track Order </header>
-
+			
 			<div class="card-body">
 				<h6>Order ID:
 					{%for order_index in order_list%}
@@ -36,7 +37,7 @@
 						{% for order_index in order_list|slice:":1"%}
 						{%if order_index.status == "new"%}
 						<div class="col">
-							<strong>Agent Details:</strong> <br>Your agent will be assigned soon. 
+							<strong>Agent Details:</strong> <br>Your agent will be assigned soon.
 						</div>
 						{%else%}
 						{%for assigned_agent in assigned_agent|slice:":1"%}
@@ -141,7 +142,6 @@
 				{%endfor%}
 				<hr>
 				<ul class="row">
-
 					{%for order_index in order_list%}
 					<li class="col-md-4">
 						<figure class="itemside mb-3">
@@ -160,6 +160,9 @@
 					Home</a>
 			</div>
 		</article>
+		<hr>
+		{%endfor%}
+
 	</div>
 </body>
 

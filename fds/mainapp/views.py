@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Restaurant, Dish, Cuisine, Discount, Ambience, Verification
+from . models import Restaurant, Dish, Cuisine, Discount, Ambience, Verification, Order
 from django.contrib import messages
 
 
@@ -108,9 +108,12 @@ def res_deleteDish(request, id):
 
 
 def res_editProfile(request):
+
     cuisine_list = Cuisine.objects.all()
     restaurant_list = Restaurant.objects.get(id=request.session['res_id'])
-    return render(request, 'backend/res_editProfile.html', {"restaurant_list": restaurant_list, "cuisine_list": cuisine_list})
+    cuisine_res_list = restaurant_list.cuisine_name
+    print("cuisine::::::::", cuisine_res_list)
+    return render(request, 'backend/res_editProfile.html', {"restaurant_list": restaurant_list, "cuisine_list": cuisine_list, 'cuisine_res_list': cuisine_res_list})
 
 
 def res_updateProfile(request):
@@ -119,10 +122,12 @@ def res_updateProfile(request):
     address = request.POST.get('address')
     pincode = request.POST.get('pincode')
     mobile_number = request.POST.get('mobile_number')
-    cuisine_name = request.POST.get('cuisine')
+    cuisine_name = request.POST.getlist('cuisine')
+    print(":::::::::::::", cuisine_name)
     description = request.POST.get('description')
     pricefortwo = request.POST.get('pricefortwo')
     logo = request.FILES.get('logo', False)
+
     if(logo == False):
         restaurant.logo = restaurant.logo
     else:
@@ -176,17 +181,17 @@ def res_editDiscount(request, id):
 
 def res_updateDiscount(request, id):
     if request.method == "POST":
-        
+
         discount_value = request.POST.get('discount')
         discountlimit = request.POST.get('discountlimit')
         discountdescription = request.POST.get('discountdescription')
         res_id = request.session['res_id']
         restaurant = Restaurant.objects.get(id=res_id)
-        discount=Discount.objects.get(id=id)
+        discount = Discount.objects.get(id=id)
         discount.discount_value = discount_value
         discount.discount_limit = discountlimit
         discount.discount_description = discountdescription
-        discount.restaurant_id =res_id
+        discount.restaurant_id = res_id
         discount.save()
 
         return redirect('res_viewDiscount')
@@ -244,3 +249,17 @@ def res_verification(request):
         restaurant = Restaurant.objects.get(id=res_id)
         verification_list = Verification.objects.filter(res_id=restaurant)
         return render(request, 'backend/res_verification.html', {'verification_list1': verification_list})
+
+
+def res_viewNewOrder(request):
+    res_id = request.session['res_id']
+
+    order_list = Order.objects.filter(status="assigned")
+    neworder_list = []
+
+    
+
+    for i in order_list:
+        if i.dish_id.restaurant_id.id == res_id:
+            neworder_list.append(i)
+    return render(request, 'backend/res_viewNewOrder.html', {"neworder_list": neworder_list})
